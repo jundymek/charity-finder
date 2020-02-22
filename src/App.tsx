@@ -1,11 +1,22 @@
-import React from 'react';
-import Header from './components/Header/Header';
+import React, { useState } from "react";
+import Header from "./components/Header/Header";
+import Welcome from "./components/Welcome/Welcome";
+import Charities from "./components/Charities/Charities";
+import CharitySearch from "./components/CharitySearch/CharitySearch";
+
+export type Charity = {title: string}
+
 
 function App() {
+  const [isWelcomeVisible, setIsWelcomeVisible] = useState<boolean>(true);
+  const [charities, setCharities] = useState<Charity[]>([]) ;
+
   return (
-    <div className="App">
+    <div>
       <Header />
-      Hello word charity
+      {isWelcomeVisible && <Welcome setIsWelcomeVisible={setIsWelcomeVisible} />}
+      <CharitySearch setCharities={setCharities} />
+      <Charities charities={charities}/>
     </div>
   );
 }
