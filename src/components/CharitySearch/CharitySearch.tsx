@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, ChangeEvent } from "react";
 import axios from "axios";
 import countries from "../../helpers/countriesSelectOptions.json";
 import { Charity } from "../../App";
@@ -12,8 +12,8 @@ type Country = { value: string; label: string };
 
 function CharitySearch({ setCharities }: Props) {
   let tempData = useRef<Charity[]>([]);
-  const name = useRef<HTMLInputElement>(null);
   const [selectedCountry, setSelectedCountry] = useState<Country>({ value: "PL", label: "Poland" });
+  const [nameInput, setNameInput] = useState<string>("")
 
   const fetchNextCharities = (id: number) => {
     return axios.get(
@@ -30,17 +30,14 @@ function CharitySearch({ setCharities }: Props) {
   };
 
   const getDataReculently = (id: number) => {
-    console.log(id);
-    let nameValue = name.current ? name.current.value : "";
     return fetchNextCharities(id)
       .then(res => {
-        console.log(res);
         if (res.data.projects.hasNext === true) {
-          setTempData(res.data.projects.project, nameValue);
+          setTempData(res.data.projects.project, nameInput);
           getDataReculently(res.data.projects.nextProjectId);
         } else {
           if (res.data.projects.numberFound > 0) {
-            setTempData(res.data.projects.project, nameValue);
+            setTempData(res.data.projects.project, nameInput);
           }
           mergeCharities();
           tempData.current = [];
@@ -50,7 +47,7 @@ function CharitySearch({ setCharities }: Props) {
   };
 
   const setTempData = (res: Charity[], nameValue: string) => {
-    tempData.current = tempData.current.concat(filterCharities(res, nameValue));
+    tempData.current = tempData.current.concat(filterCharities(res, nameInput));
   };
 
   const onSubmit = () => {
@@ -63,10 +60,14 @@ function CharitySearch({ setCharities }: Props) {
     setSelectedCountry(selectedOption);
   };
 
+  const handleInputChange = (e:ChangeEvent<HTMLInputElement>) => {
+    setNameInput(e.target.value)
+  }
+
   return (
     <section>
       <h1>Search for charity</h1>
-      <input type="text" name="name" id="name" ref={name} />
+      <input type="text" name="name" id="name" onChange={handleInputChange}/>
       <Select options={countries} onChange={handleChange} value={selectedCountry} />
       <button onClick={onSubmit}></button>
     </section>
