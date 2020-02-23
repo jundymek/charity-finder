@@ -10,7 +10,7 @@ interface Props {
 
 
 function Charities({charities}: Props) {
-  console.log(charities)
+  // console.log(charities)
   useEffect(() => {
   }, [charities])
 
