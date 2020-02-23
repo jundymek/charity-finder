@@ -1,27 +1,19 @@
-import React, { useState, useEffect } from "react";
-import axios from 'axios'
-import {Charity} from '../../App';
-
-// type Charity = {title: string}
+import React, { useEffect } from "react";
+import { Charity } from "../../App";
 
 interface Props {
   charities: Charity[];
 }
 
-
-function Charities({charities}: Props) {
-  // console.log(charities)
-  useEffect(() => {
-  }, [charities])
+function Charities({ charities }: Props) {
+  useEffect(() => {}, [charities]);
 
   return (
     <section>
       <h1>Charities</h1>
-        {
-          charities.map((charity) => 
-            <p>{charity.title}</p>
-            )
-        }
+      {charities.map(charity => (
+        <p>{charity.title}</p>
+      ))}
     </section>
   );
 }
