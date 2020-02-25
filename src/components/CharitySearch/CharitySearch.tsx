@@ -2,10 +2,10 @@ import React, { useState, useRef, ChangeEvent } from "react";
 import axios from "axios";
 import countries from "../../helpers/countriesSelectOptions.json";
 import Select from "react-select";
-import { ValueType, GroupType, ActionMeta } from "react-select/src/types";
+import { ValueType, ActionMeta } from "react-select/src/types";
 import { propsMaper } from "../../helpers/propsMapper";
 import { MappedResponse } from "../../helpers/types.js";
-import { Charity, Selected } from "../../helpers/types";
+import { Charity } from "../../helpers/types";
 
 interface Props {
   setCharities: (cb: (prevState: Charity[]) => Charity[]) => void;
@@ -13,12 +13,13 @@ interface Props {
 
 type SelectedCountry = { value: string; label: string };
 
-
 function CharitySearch({ setCharities }: Props) {
   let tempData = useRef<Charity[]>([]);
   const [selectedCountry, setSelectedCountry] = useState<SelectedCountry>({ value: "PL", label: "Poland" });
   const [selectedCountriesOrganizationServes, setselectedCountriesOrganizationServes] = useState<SelectedCountry[]>([]);
   const [nameInput, setNameInput] = useState<string>("");
+
+  console.log(selectedCountry);
 
   const fetchNextCharities = (id: number) => {
     return axios.get(
@@ -50,12 +51,13 @@ function CharitySearch({ setCharities }: Props) {
   const getDataReculently = (id: number) => {
     return fetchNextCharities(id)
       .then(res => {
+        console.log(res);
         const mappedResponse = propsMaper(res);
-        if (res.data.projects.hasNext === true) {
+        if (mappedResponse.hasNext === true) {
           setTempData(mappedResponse, nameInput);
           getDataReculently(mappedResponse.nextId);
         } else {
-          if (mappedResponse.projects.length) {
+          if (mappedResponse.projects) {
             setTempData(mappedResponse, nameInput);
           }
           mergeCharities();
@@ -66,7 +68,7 @@ function CharitySearch({ setCharities }: Props) {
   };
 
   const setTempData = (res: MappedResponse, nameValue: string) => {
-    // compareCountries(res);
+    console.log(res);
     tempData.current = tempData.current.concat(filterCharities(res.projects, nameInput));
   };
 
@@ -76,8 +78,8 @@ function CharitySearch({ setCharities }: Props) {
       .catch(e => console.warn(e));
   };
 
-  const handleCountryChange = (selectedOption: ValueType<SelectedCountry>)  => {
-    const selectedCountry = (selectedOption as SelectedCountry);
+  const handleCountryChange = (selectedOption: ValueType<SelectedCountry>) => {
+    const selectedCountry = selectedOption as SelectedCountry;
     setSelectedCountry(selectedCountry);
   };
 
@@ -86,7 +88,7 @@ function CharitySearch({ setCharities }: Props) {
   };
 
   const handleCountriesOrganizationServes = (selectedOption: ValueType<SelectedCountry>, e: ActionMeta) => {
-    const selectedCountries = ((selectedOption as SelectedCountry[]));
+    const selectedCountries = selectedOption as SelectedCountry[];
     setselectedCountriesOrganizationServes(selectedCountries);
   };
 
@@ -94,9 +96,7 @@ function CharitySearch({ setCharities }: Props) {
     <section>
       <h1>Search for charity</h1>
       <input type="text" name="name" id="name" onChange={handleInputChange} />
-      <Select options={countries} 
-      onChange={handleCountryChange} 
-      value={selectedCountry} />
+      <Select options={countries} onChange={handleCountryChange} value={selectedCountry} />
       <Select
         options={countries}
         onChange={handleCountriesOrganizationServes}
