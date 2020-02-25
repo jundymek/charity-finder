@@ -1,19 +1,22 @@
 import React, { useState, useRef, ChangeEvent } from "react";
 import axios from "axios";
 import countries from "../../helpers/countriesSelectOptions.json";
-import { Charity } from "../../App";
 import Select from "react-select";
+import { propsMaper } from "../../helpers/propsMapper";
+import { MappedResponse } from "../../helpers/types.js";
+import { Charity } from "../../helpers/types";
 
 interface Props {
   setCharities: (cb: (prevState: Charity[]) => Charity[]) => void;
 }
 
-type Country = { value: string; label: string };
+type SelectedCountry = { value: string; label: string };
 
 function CharitySearch({ setCharities }: Props) {
   let tempData = useRef<Charity[]>([]);
-  const [selectedCountry, setSelectedCountry] = useState<Country>({ value: "PL", label: "Poland" });
-  const [nameInput, setNameInput] = useState<string>("")
+  const [selectedCountry, setSelectedCountry] = useState<SelectedCountry>({ value: "PL", label: "Poland" });
+  const [selectedCountriesOrganizationServes, setselectedCountriesOrganizationServes] = useState<SelectedCountry[]>([]);
+  const [nameInput, setNameInput] = useState<string>("");
 
   const fetchNextCharities = (id: number) => {
     return axios.get(
@@ -25,6 +28,19 @@ function CharitySearch({ setCharities }: Props) {
     setCharities(prevState => tempData.current);
   };
 
+  const compareCountries = (data: Charity[]) => {
+    let isValid: boolean = false;
+    data.forEach((item: any) => {
+      console.log(item);
+      console.log(selectedCountriesOrganizationServes);
+      console.log(
+        item.organization.countries.country.filter((val: any) =>
+          selectedCountriesOrganizationServes.map(item => item.label).includes(val.name)
+        ).length
+      );
+    });
+  };
+
   const filterCharities = (data: Charity[], inputValue: string = "") => {
     return data.filter(item => item.title.toLowerCase().includes(inputValue.toLowerCase()));
   };
@@ -32,12 +48,13 @@ function CharitySearch({ setCharities }: Props) {
   const getDataReculently = (id: number) => {
     return fetchNextCharities(id)
       .then(res => {
+        const mappedResponse = propsMaper(res);
         if (res.data.projects.hasNext === true) {
-          setTempData(res.data.projects.project, nameInput);
-          getDataReculently(res.data.projects.nextProjectId);
+          setTempData(mappedResponse, nameInput);
+          getDataReculently(mappedResponse.nextId);
         } else {
-          if (res.data.projects.numberFound > 0) {
-            setTempData(res.data.projects.project, nameInput);
+          if (mappedResponse.projects.length) {
+            setTempData(mappedResponse, nameInput);
           }
           mergeCharities();
           tempData.current = [];
@@ -46,8 +63,9 @@ function CharitySearch({ setCharities }: Props) {
       .catch(e => console.log(e));
   };
 
-  const setTempData = (res: Charity[], nameValue: string) => {
-    tempData.current = tempData.current.concat(filterCharities(res, nameInput));
+  const setTempData = (res: MappedResponse, nameValue: string) => {
+    // compareCountries(res);
+    tempData.current = tempData.current.concat(filterCharities(res.projects, nameInput));
   };
 
   const onSubmit = () => {
@@ -56,19 +74,30 @@ function CharitySearch({ setCharities }: Props) {
       .catch(e => console.warn(e));
   };
 
-  const handleChange = (selectedOption: any) => {
+  const handleCountryChange = (selectedOption: any) => {
+    console.log(selectedOption);
     setSelectedCountry(selectedOption);
   };
 
-  const handleInputChange = (e:ChangeEvent<HTMLInputElement>) => {
-    setNameInput(e.target.value)
-  }
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setNameInput(e.target.value);
+  };
+
+  const handleCountriesOrganizationServes = (selectedOption: any) => {
+    setselectedCountriesOrganizationServes(selectedOption);
+  };
 
   return (
     <section>
       <h1>Search for charity</h1>
-      <input type="text" name="name" id="name" onChange={handleInputChange}/>
-      <Select options={countries} onChange={handleChange} value={selectedCountry} />
+      <input type="text" name="name" id="name" onChange={handleInputChange} />
+      <Select options={countries} onChange={handleCountryChange} value={selectedCountry} />
+      <Select
+        options={countries}
+        onChange={handleCountriesOrganizationServes}
+        value={selectedCountriesOrganizationServes}
+        isMulti
+      />
       <button onClick={onSubmit}></button>
     </section>
   );

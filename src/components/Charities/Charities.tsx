@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Charity } from "../../App";
+import {Charity} from "../../helpers/types"
 
 interface Props {
   charities: Charity[];

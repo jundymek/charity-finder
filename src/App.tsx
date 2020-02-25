@@ -3,20 +3,18 @@ import Header from "./components/Header/Header";
 import Welcome from "./components/Welcome/Welcome";
 import Charities from "./components/Charities/Charities";
 import CharitySearch from "./components/CharitySearch/CharitySearch";
-
-export type Charity = {title: string}
-
+import { Charity } from "./helpers/types";
 
 function App() {
   const [isWelcomeVisible, setIsWelcomeVisible] = useState<boolean>(true);
-  const [charities, setCharities] = useState<Charity[]>([]) ;
+  const [charities, setCharities] = useState<Charity[]>([]);
 
   return (
     <div>
       <Header />
       {isWelcomeVisible && <Welcome setIsWelcomeVisible={setIsWelcomeVisible} />}
       <CharitySearch setCharities={setCharities} />
-      <Charities charities={charities}/>
+      <Charities charities={charities} />
     </div>
   );
 }
