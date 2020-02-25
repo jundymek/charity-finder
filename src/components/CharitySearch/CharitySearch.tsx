@@ -2,15 +2,17 @@ import React, { useState, useRef, ChangeEvent } from "react";
 import axios from "axios";
 import countries from "../../helpers/countriesSelectOptions.json";
 import Select from "react-select";
+import { ValueType, GroupType, ActionMeta } from "react-select/src/types";
 import { propsMaper } from "../../helpers/propsMapper";
 import { MappedResponse } from "../../helpers/types.js";
-import { Charity } from "../../helpers/types";
+import { Charity, Selected } from "../../helpers/types";
 
 interface Props {
   setCharities: (cb: (prevState: Charity[]) => Charity[]) => void;
 }
 
 type SelectedCountry = { value: string; label: string };
+
 
 function CharitySearch({ setCharities }: Props) {
   let tempData = useRef<Charity[]>([]);
@@ -74,24 +76,27 @@ function CharitySearch({ setCharities }: Props) {
       .catch(e => console.warn(e));
   };
 
-  const handleCountryChange = (selectedOption: any) => {
-    console.log(selectedOption);
-    setSelectedCountry(selectedOption);
+  const handleCountryChange = (selectedOption: ValueType<SelectedCountry>)  => {
+    const selectedCountry = (selectedOption as SelectedCountry);
+    setSelectedCountry(selectedCountry);
   };
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     setNameInput(e.target.value);
   };
 
-  const handleCountriesOrganizationServes = (selectedOption: any) => {
-    setselectedCountriesOrganizationServes(selectedOption);
+  const handleCountriesOrganizationServes = (selectedOption: ValueType<SelectedCountry>, e: ActionMeta) => {
+    const selectedCountries = ((selectedOption as SelectedCountry[]));
+    setselectedCountriesOrganizationServes(selectedCountries);
   };
 
   return (
     <section>
       <h1>Search for charity</h1>
       <input type="text" name="name" id="name" onChange={handleInputChange} />
-      <Select options={countries} onChange={handleCountryChange} value={selectedCountry} />
+      <Select options={countries} 
+      onChange={handleCountryChange} 
+      value={selectedCountry} />
       <Select
         options={countries}
         onChange={handleCountriesOrganizationServes}

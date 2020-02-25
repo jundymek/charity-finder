@@ -1,3 +1,7 @@
+export interface Selected {
+  value: string;
+  label: string;
+}
 
 
 export type CountryArray = {
