@@ -1,12 +1,11 @@
 import React, { useState, useRef, ChangeEvent } from "react";
 import axios from "axios";
 import countries from "../../helpers/countriesSelectOptions.json";
-import {filterByCountriesOrganizationServes} from "../../helpers/filterByCountriesOrganizationServes";
+import { filterCharities } from "../../helpers/filterCharities";
 import Select from "react-select";
 import { ValueType, ActionMeta } from "react-select/src/types";
 import { propsMaper } from "../../helpers/propsMapper";
 import { MappedResponse, Charity, SelectedCountry } from "../../helpers/types";
-
 
 interface Props {
   setCharities: (cb: (prevState: Charity[]) => Charity[]) => void;
@@ -30,12 +29,6 @@ function CharitySearch({ setCharities }: Props) {
     setCharities(prevState => tempData.current);
   };
 
-  
-
-  const filterCharities = (data: Charity[], inputValue: string = "") => {
-    return filterByCountriesOrganizationServes(data, selectedCountriesOrganizationServes).filter(item => item.title.toLowerCase().includes(inputValue.toLowerCase()));
-  };
-
   const getDataReculently = (id: number) => {
     return fetchNextCharities(id)
       .then(res => {
@@ -55,7 +48,9 @@ function CharitySearch({ setCharities }: Props) {
   };
 
   const setTempData = (res: MappedResponse, nameValue: string) => {
-    tempData.current = tempData.current.concat(filterCharities(res.projects, nameInput));
+    tempData.current = tempData.current.concat(
+      filterCharities(res.projects, nameInput, selectedCountriesOrganizationServes)
+    );
   };
 
   const onSubmit = () => {
