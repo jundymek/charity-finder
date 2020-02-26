@@ -1,7 +1,7 @@
 import { MappedResponse, RawResponse, Project, CountryArray } from "./types";
 
 export function propsMaper(resData: RawResponse): MappedResponse {
-  console.log(resData.data.projects)
+  // console.log(resData.data.projects)
   return {
     hasNext: resData.data.projects.hasNext,
     nextId: resData.data.projects.nextProjectId,

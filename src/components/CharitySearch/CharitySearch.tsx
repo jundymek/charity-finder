@@ -7,6 +7,7 @@ import { propsMaper } from "../../helpers/propsMapper";
 import { MappedResponse } from "../../helpers/types.js";
 import { Charity } from "../../helpers/types";
 
+
 interface Props {
   setCharities: (cb: (prevState: Charity[]) => Charity[]) => void;
 }
@@ -31,27 +32,24 @@ function CharitySearch({ setCharities }: Props) {
     setCharities(prevState => tempData.current);
   };
 
-  const compareCountries = (data: Charity[]) => {
-    let isValid: boolean = false;
-    data.forEach((item: any) => {
-      console.log(item);
-      console.log(selectedCountriesOrganizationServes);
-      console.log(
-        item.organization.countries.country.filter((val: any) =>
-          selectedCountriesOrganizationServes.map(item => item.label).includes(val.name)
-        ).length
+  const filterByCountriesOrganizationServes = (data: Charity[]) => {
+    if(selectedCountriesOrganizationServes.length) {
+      return data.filter((project: any) =>
+        project.organizationCountries.some((item: any) =>
+          selectedCountriesOrganizationServes.map(item => item.label).includes(item)
+        )
       );
-    });
+    }
+    return data
   };
 
   const filterCharities = (data: Charity[], inputValue: string = "") => {
-    return data.filter(item => item.title.toLowerCase().includes(inputValue.toLowerCase()));
+    return filterByCountriesOrganizationServes(data).filter(item => item.title.toLowerCase().includes(inputValue.toLowerCase()));
   };
 
   const getDataReculently = (id: number) => {
     return fetchNextCharities(id)
       .then(res => {
-        console.log(res);
         const mappedResponse = propsMaper(res);
         if (mappedResponse.hasNext === true) {
           setTempData(mappedResponse, nameInput);
@@ -68,7 +66,6 @@ function CharitySearch({ setCharities }: Props) {
   };
 
   const setTempData = (res: MappedResponse, nameValue: string) => {
-    console.log(res);
     tempData.current = tempData.current.concat(filterCharities(res.projects, nameInput));
   };
 
