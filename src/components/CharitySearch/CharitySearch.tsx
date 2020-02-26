@@ -1,18 +1,16 @@
 import React, { useState, useRef, ChangeEvent } from "react";
 import axios from "axios";
 import countries from "../../helpers/countriesSelectOptions.json";
+import {filterByCountriesOrganizationServes} from "../../helpers/filterByCountriesOrganizationServes";
 import Select from "react-select";
 import { ValueType, ActionMeta } from "react-select/src/types";
 import { propsMaper } from "../../helpers/propsMapper";
-import { MappedResponse } from "../../helpers/types.js";
-import { Charity } from "../../helpers/types";
+import { MappedResponse, Charity, SelectedCountry } from "../../helpers/types";
 
 
 interface Props {
   setCharities: (cb: (prevState: Charity[]) => Charity[]) => void;
 }
-
-type SelectedCountry = { value: string; label: string };
 
 function CharitySearch({ setCharities }: Props) {
   let tempData = useRef<Charity[]>([]);
@@ -32,19 +30,10 @@ function CharitySearch({ setCharities }: Props) {
     setCharities(prevState => tempData.current);
   };
 
-  const filterByCountriesOrganizationServes = (data: Charity[]) => {
-    if(selectedCountriesOrganizationServes.length) {
-      return data.filter((project: any) =>
-        project.organizationCountries.some((item: any) =>
-          selectedCountriesOrganizationServes.map(item => item.label).includes(item)
-        )
-      );
-    }
-    return data
-  };
+  
 
   const filterCharities = (data: Charity[], inputValue: string = "") => {
-    return filterByCountriesOrganizationServes(data).filter(item => item.title.toLowerCase().includes(inputValue.toLowerCase()));
+    return filterByCountriesOrganizationServes(data, selectedCountriesOrganizationServes).filter(item => item.title.toLowerCase().includes(inputValue.toLowerCase()));
   };
 
   const getDataReculently = (id: number) => {

@@ -3,6 +3,7 @@ export interface Selected {
   label: string;
 }
 
+export type SelectedCountry = { value: string; label: string };
 
 export type CountryArray = {
   name: string;
