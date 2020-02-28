@@ -10,12 +10,17 @@ function App() {
   const [charities, setCharities] = useState<Charity[]>([]);
 
   return (
-    <div>
-      <Header />
-      {isWelcomeVisible && <Welcome setIsWelcomeVisible={setIsWelcomeVisible} />}
-      <CharitySearch setCharities={setCharities} />
-      <Charities charities={charities} />
-    </div>
+    <>
+      {isWelcomeVisible ? (
+        <Welcome setIsWelcomeVisible={setIsWelcomeVisible} />
+      ) : (
+        <>
+          <Header />
+          <CharitySearch setCharities={setCharities} />
+          <Charities charities={charities} />
+        </>
+      )}
+    </>
   );
 }
 
