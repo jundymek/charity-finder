@@ -6,6 +6,8 @@ import Select from "react-select";
 import { ValueType, ActionMeta } from "react-select/src/types";
 import { propsMaper } from "../../helpers/propsMapper";
 import { MappedResponse, Charity, SelectedCountry } from "../../helpers/types";
+import styles from "./CharitySearch.module.scss";
+import { customStyles } from "./customStyles";
 
 interface Props {
   setCharities: (cb: (prevState: Charity[]) => Charity[]) => void;
@@ -53,7 +55,8 @@ function CharitySearch({ setCharities }: Props) {
     );
   };
 
-  const onSubmit = () => {
+  const onSubmit = (e: any) => {
+    e.preventDefault();
     getDataReculently(1)
       .then(() => console.log("Success"))
       .catch(e => console.warn(e));
@@ -74,17 +77,52 @@ function CharitySearch({ setCharities }: Props) {
   };
 
   return (
-    <section>
-      <h1>Search for charity</h1>
-      <input type="text" name="name" id="name" onChange={handleInputChange} />
-      <Select options={countries} onChange={handleCountryChange} value={selectedCountry} />
-      <Select
-        options={countries}
-        onChange={handleCountriesOrganizationServes}
-        value={selectedCountriesOrganizationServes}
-        isMulti
-      />
-      <button onClick={onSubmit}></button>
+    <section className={styles.formContainer}>
+      <div>
+        <h1 className={styles.title}>Search for charity</h1>
+      </div>
+      <p className={styles.subtitle}>
+        Filter charities by search conditions. Use form below to see charities matching yours criteria.
+      </p>
+      <form className={styles.form}>
+        <div className={styles.formInnerContainer}>
+          <label className={styles.formLabel} htmlFor="name">
+            Charity name
+          </label>
+          <input
+            className={styles.formInput}
+            placeholder="Enter charity name"
+            type="text"
+            name="name"
+            id="name"
+            onChange={handleInputChange}
+          />
+        </div>
+        <div className={styles.formInnerContainer}>
+          <label className={styles.formLabel} htmlFor="name">
+            Select country
+          </label>
+          <Select styles={customStyles} options={countries} onChange={handleCountryChange} value={selectedCountry} />
+        </div>
+        <div className={styles.formInnerContainer}>
+          <label className={styles.formLabel} htmlFor="name">
+            Select countries the organization serves
+          </label>
+          <Select
+            styles={customStyles}
+            options={countries}
+            onChange={handleCountriesOrganizationServes}
+            value={selectedCountriesOrganizationServes}
+            isMulti
+          />
+        </div>
+        <button className={styles.button} onClick={onSubmit}>
+          Search for charities{" "}
+          <span role="img" aria-label="Heart icon">
+            ❤️
+          </span>
+        </button>
+      </form>
     </section>
   );
 }
