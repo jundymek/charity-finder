@@ -12,12 +12,16 @@ function Charities({ charities }: Props) {
 
   return (  
     <article className={styles.outerContainer}>
-      <h1>Charities</h1>
-      <div className={styles.mainContainer}>
-        {charities.map((charity: Charity) => (
-          <CharityBox project={charity} key={charity.id} />
-        ))}
-      </div>
+      {charities.length > 0 && 
+      <>
+        <h1>Charities</h1>
+        <div className={styles.mainContainer}>
+          {charities.map((charity: Charity) => (
+            <CharityBox project={charity} key={charity.id} />
+          ))}
+        </div>
+      </>
+      }
     </article>
   );
 }
