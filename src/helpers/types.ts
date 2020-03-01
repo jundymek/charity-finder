@@ -20,6 +20,15 @@ export interface Charity {
   title: string;
   country: string;
   organizationCountries: string[];
+  logoImage: string,
+  address: Address
+}
+
+export interface Address {
+  country: string;
+  city: string;
+  addressLine1: string;
+  addressLine2: string;
 }
 
 export interface RawResponse {

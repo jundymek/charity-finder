@@ -1,5 +1,7 @@
 import React, { useEffect } from "react";
-import {Charity} from "../../helpers/types"
+import { Charity } from "../../helpers/types";
+import CharityBox from "../CharityBox/CharityBox";
+import styles from  './Charities.module.scss';
 
 interface Props {
   charities: Charity[];
@@ -8,13 +10,15 @@ interface Props {
 function Charities({ charities }: Props) {
   useEffect(() => {}, [charities]);
 
-  return (
-    <section>
+  return (  
+    <article className={styles.outerContainer}>
       <h1>Charities</h1>
-      {charities.map(charity => (
-        <p>{charity.title}</p>
-      ))}
-    </section>
+      <div className={styles.mainContainer}>
+        {charities.map((charity: Charity) => (
+          <CharityBox project={charity} key={charity.id} />
+        ))}
+      </div>
+    </article>
   );
 }
 
