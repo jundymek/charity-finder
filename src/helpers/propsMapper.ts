@@ -10,7 +10,9 @@ export function propsMaper(resData: RawResponse): MappedResponse {
         id: item.id,
         title: item.title,
         country: item.country,
-        organizationCountries: item.organization.countries.country ? item.organization.countries.country.map((item: CountryArray) => item.name) : []
-      })) : []
+        organizationCountries: item.organization.countries.country ? item.organization.countries.country.map((item: CountryArray) => item.name) : [],
+        logoImage: item.imageLink,
+        address: {'country': item.organization.country, 'city': item.organization.city, 'addressLine1': item.organization.addressLine1, 'addressLine2': item.organization.addressLine2}
+      })) : [],
   }
 }
