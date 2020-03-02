@@ -3,9 +3,9 @@ import styles from "./Header.module.scss";
 
 function Header() {
   return (
-    <section className={styles.header}>
+    <header className={styles.header}>
       <h1 className={styles.title}>Charity finder</h1>
-    </section>
+    </header>
   );
 }
 
