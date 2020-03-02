@@ -22,7 +22,7 @@ function CharityBox({ project }: Props) {
     <div className={styles.charityOuterContainer}>
       <section className={styles.charityContainer}>
         <div className={styles.leftBox}>
-          <img className={styles.logoImage} src={project.logoImage} alt="Project logo" />
+          <a className={styles.logoLink} href={project.contactUrl} title={project.contactUrl}><img className={styles.logoImage} src={project.logoImage} alt="Project logo" /></a>
         </div>
         <div className={styles.rightBox}>
           <div className={styles.addressTitleContainer}>

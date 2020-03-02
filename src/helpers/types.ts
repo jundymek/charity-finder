@@ -21,7 +21,8 @@ export interface Charity {
   country: string;
   organizationCountries: string[];
   logoImage: string,
-  address: Address
+  address: Address,
+  contactUrl: string
 }
 
 export interface Address {

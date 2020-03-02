@@ -35,6 +35,7 @@ function CharitySearch({ setCharities }: Props) {
     return fetchNextCharities(id)
       .then(res => {
         const mappedResponse = propsMaper(res);
+        console.log(mappedResponse)
         if (mappedResponse.hasNext === true) {
           setTempData(mappedResponse, nameInput);
           getDataReculently(mappedResponse.nextId);
@@ -82,7 +83,7 @@ function CharitySearch({ setCharities }: Props) {
         <h1 className={styles.title}>Search for charity</h1>
       </div>
       <p className={styles.subtitle}>
-        Filter charities by search conditions. Use form below to see charities matching yours criteria.
+        Filter charities by personal search conditions. Use form below to see charities matching yours criteria.
       </p>
       <form className={styles.form}>
         <div className={styles.formInnerContainer}>
