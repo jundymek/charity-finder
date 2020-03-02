@@ -108,7 +108,7 @@ function CharitySearch({ setCharities }: Props) {
           <label className={styles.formLabel} htmlFor="name">
             Select countries the organization serves
           </label>
-          <Select
+          <Select 
             styles={customStyles}
             options={countries}
             onChange={handleCountriesOrganizationServes}
