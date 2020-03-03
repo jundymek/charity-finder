@@ -7,11 +7,14 @@ interface Props {
   charities: Charity[];
   getData: (id: number) => Promise<void>;
   nextId: number;
-  totalNumberOfCharities: number;
 }
 
-function Charities({ charities, getData, nextId, totalNumberOfCharities }: Props) {
+function Charities({ charities, getData, nextId }: Props) {
   useEffect(() => {}, [charities]);
+
+  const handleSubmit: () => void = () => {
+    getData(nextId);
+  };
 
   return (
     <article className={styles.outerContainer}>
@@ -25,9 +28,9 @@ function Charities({ charities, getData, nextId, totalNumberOfCharities }: Props
           </div>
         </>
       )}
-      {totalNumberOfCharities > charities.length && (
-        <button onClick={() => getData(nextId)}>
-          More... {charities.length}/{totalNumberOfCharities}
+      {nextId > 1 && (
+        <button className={styles.buttonMore} onClick={handleSubmit}>
+          Load more...
         </button>
       )}
     </article>

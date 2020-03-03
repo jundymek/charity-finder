@@ -16,44 +16,32 @@ interface Props {
 }
 
 function CharitySearch() {
-  let tempData = useRef<Charity[]>([]);
-  const [selectedCountry, setSelectedCountry] = useState<SelectedCountry>({ value: "PL", label: "Poland" });
+  const [selectedCountry, setSelectedCountry] = useState<SelectedCountry>({ value: "", label: "" });
   const [selectedCountriesOrganizationServes, setselectedCountriesOrganizationServes] = useState<SelectedCountry[]>([]);
   const [nameInput, setNameInput] = useState<string>("");
   const [nextId, setNextId] = useState<number>(1);
-  const [totalNumberOfCharities, setTotalNumberOfCharities] = useState<number>(0);
   const [charities, setCharities] = useState<Charity[]>([]);
 
   console.log(selectedCountry);
 
   const fetchNextCharities = (id: number) => {
+    if (selectedCountry && selectedCountry["value"].length) {
+      return axios.get(
+        `https://api.globalgiving.org/api/public/projectservice/countries/${selectedCountry["value"]}/projects?api_key=961c70eb-d43d-4acc-a6eb-5ff2482a02d0&nextProjectId=${id}`
+      );
+    }
     return axios.get(
-      `https://api.globalgiving.org/api/public/projectservice/countries/${selectedCountry["value"]}/projects?api_key=961c70eb-d43d-4acc-a6eb-5ff2482a02d0&nextProjectId=${id}`
+      `https://api.globalgiving.org/api/public/projectservice/all/projects?api_key=961c70eb-d43d-4acc-a6eb-5ff2482a02d0&nextProjectId=${id}`
     );
-  };
-
-  const mergeCharities = () => {
-    console.log(charities);
-    tempData.current.map(item => {
-      return setCharities(prevState => [...prevState, item]);
-    });
   };
 
   const getData = (id: number) => {
     return fetchNextCharities(id).then(res => {
       const mappedResponse = propsMaper(res);
-      setTotalNumberOfCharities(mappedResponse.totalNumberOfCharities);
       setNextId(mappedResponse.nextId);
-      setTempData(mappedResponse, nameInput);
-      mergeCharities();
-      tempData.current = [];
+      const newData = filterCharities(mappedResponse.projects, nameInput, selectedCountriesOrganizationServes);
+      setCharities(prevState => [...prevState.concat(newData)]);
     });
-  };
-
-  const setTempData = (res: MappedResponse, nameValue: string) => {
-    tempData.current = tempData.current.concat(
-      filterCharities(res.projects, nameInput, selectedCountriesOrganizationServes)
-    );
   };
 
   const onSubmit = (e: any) => {
@@ -104,7 +92,7 @@ function CharitySearch() {
           <label className={styles.formLabel} htmlFor="name">
             Select country
           </label>
-          <Select styles={customStyles} options={countries} onChange={handleCountryChange} value={selectedCountry} />
+          <Select styles={customStyles} options={countries} onChange={handleCountryChange} isClearable={true} />
         </div>
         <div className={styles.formInnerContainer}>
           <label className={styles.formLabel} htmlFor="name">
@@ -125,12 +113,7 @@ function CharitySearch() {
           </span>
         </button>
       </form>
-      <Charities
-        charities={charities}
-        getData={getData}
-        nextId={nextId}
-        totalNumberOfCharities={totalNumberOfCharities}
-      />
+      <Charities charities={charities} getData={getData} nextId={nextId} />
     </section>
   );
 }
