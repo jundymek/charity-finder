@@ -12,7 +12,7 @@ function CharityBox({ project }: Props) {
     ["City", project.address.city],
     [
       "Address",
-      project.address.addressLine2.length > 0
+      project.address.addressLine2 && project.address.addressLine2.length > 0
         ? `${project.address.addressLine1}, ${project.address.addressLine2}`
         : project.address.addressLine1
     ]

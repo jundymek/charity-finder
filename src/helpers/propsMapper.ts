@@ -5,6 +5,7 @@ export function propsMaper(resData: RawResponse): MappedResponse {
   return {
     hasNext: resData.data.projects.hasNext,
     nextId: resData.data.projects.nextProjectId,
+    totalNumberOfCharities: resData.data.projects.numberFound,
     projects: resData.data.projects.project ? resData.data.projects.project.map((item: Project) =>
       ({
         id: item.id,

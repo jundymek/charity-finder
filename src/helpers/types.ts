@@ -12,6 +12,7 @@ export type CountryArray = {
 export interface MappedResponse {
   hasNext: boolean;
   nextId: number;
+  totalNumberOfCharities: number;
   projects: Charity[]
 }
 

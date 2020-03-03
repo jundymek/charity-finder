@@ -8,16 +8,21 @@ import { propsMaper } from "../../helpers/propsMapper";
 import { MappedResponse, Charity, SelectedCountry } from "../../helpers/types";
 import styles from "./CharitySearch.module.scss";
 import { customStyles } from "./customStyles";
+import Charities from "../Charities/Charities";
 
 interface Props {
   setCharities: (cb: (prevState: Charity[]) => Charity[]) => void;
+  charities: Charity[];
 }
 
-function CharitySearch({ setCharities }: Props) {
+function CharitySearch() {
   let tempData = useRef<Charity[]>([]);
   const [selectedCountry, setSelectedCountry] = useState<SelectedCountry>({ value: "PL", label: "Poland" });
   const [selectedCountriesOrganizationServes, setselectedCountriesOrganizationServes] = useState<SelectedCountry[]>([]);
   const [nameInput, setNameInput] = useState<string>("");
+  const [nextId, setNextId] = useState<number>(1);
+  const [totalNumberOfCharities, setTotalNumberOfCharities] = useState<number>(0);
+  const [charities, setCharities] = useState<Charity[]>([]);
 
   console.log(selectedCountry);
 
@@ -28,26 +33,21 @@ function CharitySearch({ setCharities }: Props) {
   };
 
   const mergeCharities = () => {
-    setCharities(prevState => tempData.current);
+    console.log(charities);
+    tempData.current.map(item => {
+      return setCharities(prevState => [...prevState, item]);
+    });
   };
 
-  const getDataReculently = (id: number) => {
-    return fetchNextCharities(id)
-      .then(res => {
-        const mappedResponse = propsMaper(res);
-        console.log(mappedResponse)
-        if (mappedResponse.hasNext === true) {
-          setTempData(mappedResponse, nameInput);
-          getDataReculently(mappedResponse.nextId);
-        } else {
-          if (mappedResponse.projects) {
-            setTempData(mappedResponse, nameInput);
-          }
-          mergeCharities();
-          tempData.current = [];
-        }
-      })
-      .catch(e => console.log(e));
+  const getData = (id: number) => {
+    return fetchNextCharities(id).then(res => {
+      const mappedResponse = propsMaper(res);
+      setTotalNumberOfCharities(mappedResponse.totalNumberOfCharities);
+      setNextId(mappedResponse.nextId);
+      setTempData(mappedResponse, nameInput);
+      mergeCharities();
+      tempData.current = [];
+    });
   };
 
   const setTempData = (res: MappedResponse, nameValue: string) => {
@@ -58,7 +58,8 @@ function CharitySearch({ setCharities }: Props) {
 
   const onSubmit = (e: any) => {
     e.preventDefault();
-    getDataReculently(1)
+    setCharities([]);
+    getData(1)
       .then(() => console.log("Success"))
       .catch(e => console.warn(e));
   };
@@ -109,7 +110,7 @@ function CharitySearch({ setCharities }: Props) {
           <label className={styles.formLabel} htmlFor="name">
             Select countries the organization serves
           </label>
-          <Select 
+          <Select
             styles={customStyles}
             options={countries}
             onChange={handleCountriesOrganizationServes}
@@ -124,6 +125,12 @@ function CharitySearch({ setCharities }: Props) {
           </span>
         </button>
       </form>
+      <Charities
+        charities={charities}
+        getData={getData}
+        nextId={nextId}
+        totalNumberOfCharities={totalNumberOfCharities}
+      />
     </section>
   );
 }
