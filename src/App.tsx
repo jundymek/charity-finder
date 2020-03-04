@@ -13,7 +13,6 @@ function App() {
   const [isWelcomeVisible, setIsWelcomeVisible] = useState<boolean>(true);
   const [isActive, setIsActive] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  console.log(isActive);
   return (
     <>
       {isWelcomeVisible ? (
