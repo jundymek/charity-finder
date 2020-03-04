@@ -32,7 +32,7 @@ function CharityFilter({ charities, setFilteredCharities, setIsFiltered }: Props
   };
   return (
     <section className={styles.container}>
-      <h3>Filter charities</h3>
+      <h3 className={styles.title}>Filter received data</h3>
       <form className={styles.form}>
         <div className={styles.formInnerContainer}>
           <label className={styles.formLabel} htmlFor="name">

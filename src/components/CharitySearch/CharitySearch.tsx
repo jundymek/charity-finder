@@ -10,11 +10,10 @@ import { customStyles } from "./customStyles";
 import Charities from "../Charities/Charities";
 
 interface Props {
-  setCharities: (cb: (prevState: Charity[]) => Charity[]) => void;
-  charities: Charity[];
+  setIsActive: (cb: (ptevState: boolean) => boolean) => void;
 }
 
-function CharitySearch() {
+function CharitySearch({setIsActive}: Props) {
   const [selectedCountry, setSelectedCountry] = useState<SelectedCountry>({ value: "", label: "" });
   const [nextId, setNextId] = useState<number>(1);
   const [charities, setCharities] = useState<Charity[]>([]);
@@ -43,7 +42,7 @@ function CharitySearch() {
     e.preventDefault();
     setCharities([]);
     getData(1)
-      .then(() => console.log("Success"))
+      .then(() => {console.log("Success"); setIsActive(prevState => true)})
       .catch(e => console.warn(e));
   };
 

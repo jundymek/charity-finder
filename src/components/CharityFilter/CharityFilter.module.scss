@@ -3,6 +3,7 @@
 .container {
   width: 100%;
   max-width: 700px;
+  padding: 10px;
 }
 
 .formContainer {
@@ -49,14 +50,9 @@
 
 .title {
   font-size: 30px;
-  position: relative;
-  overflow: hidden; 
-  border-right: 5px solid $mySin; 
-  white-space: nowrap; 
-  margin: 0 auto; 
-  animation: 
-    typing 1.5s steps(18, end),
-    blink-caret 1s step-end infinite;
+  text-align: center;
+  margin: 0;
+  margin-bottom: 10px;
 }
 
 .subtitle {

@@ -4,19 +4,22 @@ import Welcome from "./components/Welcome/Welcome";
 import CharitySearch from "./components/CharitySearch/CharitySearch";
 import Footer from "./components/Footer/Footer";
 import './styles/main.scss'
+import styles from "./styles/App.module.scss";
 
 function App() {
   const [isWelcomeVisible, setIsWelcomeVisible] = useState<boolean>(true);
-  // const [charities, setCharities] = useState<Charity[]>([]);
-
+  const [isActive, setIsActive] = useState<boolean>(false)
+  console.log(isActive)
   return (
     <>
       {isWelcomeVisible ? (
         <Welcome setIsWelcomeVisible={setIsWelcomeVisible} />
       ) : (
         <>
-          <Header />
-          <CharitySearch />
+          <div className={!isActive ? styles.main : styles.mainActive}>
+            <Header />
+            <CharitySearch setIsActive={setIsActive}/>
+          </div>
           <Footer />
         </>
       )}
