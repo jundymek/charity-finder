@@ -45,11 +45,11 @@
 .title {
   font-size: 30px;
   position: relative;
-  overflow: hidden; 
-  border-right: 5px solid $mySin; 
-  white-space: nowrap; 
-  margin: 0 auto; 
-  animation: 
+  overflow: hidden;
+  border-right: 5px solid $mySin;
+  white-space: nowrap;
+  margin: 0 auto;
+  animation:
     typing 1.5s steps(18, end),
     blink-caret 1s step-end infinite;
 }
@@ -61,50 +61,51 @@
 }
 
 @keyframes typing {
-  from { width: 0 }
-  to { width: 100% }
+  from {
+    width: 0
+  }
+
+  to {
+    width: 100%
+  }
 }
 
 @keyframes blink-caret {
-  from, to { border-color: transparent }
-  50% { border-color: $mySin; }
+
+  from,
+  to {
+    border-color: transparent
+  }
+
+  50% {
+    border-color: $mySin;
+  }
 }
 
 .button {
   margin-top: 20px;
-	box-shadow: 0px 1px 0px 0px #fff6af;
-	background:linear-gradient(to bottom, #ffec64 5%, $mySin 100%);
-	background-color:#ffec64;
-	border-radius:6px;
-	border:1px solid #ffaa22;
-	display:inline-block;
-	cursor:pointer;
-	color:#333333;
-	font-family:Arial;
-	font-size:15px;
-	font-weight:bold;
-	padding:11px 29px;
-	text-decoration:none;
-	text-shadow:0px 1px 0px #ffee66;
-}
-.button:hover {
-	background:linear-gradient(to bottom, $mySin 5%, #ffec64 100%);
-	background-color:$mySin;
-}
-.button:active {
-	position:relative;
-	top:1px;
+  box-shadow: 0px 1px 0px 0px #fff6af;
+  background: linear-gradient(to bottom, #ffec64 5%, $mySin 100%);
+  background-color: #ffec64;
+  border-radius: 6px;
+  border: 1px solid #ffaa22;
+  display: inline-block;
+  cursor: pointer;
+  color: #333333;
+  font-family: Arial;
+  font-size: 15px;
+  font-weight: bold;
+  padding: 11px 29px;
+  text-decoration: none;
+  text-shadow: 0px 1px 0px #ffee66;
 }
 
-.buttonDisabled {
-  margin-top: 20px;
-	box-shadow: 0px 1px 0px 0px #fff6af;
-	background-color:grey;
-	border-radius:6px;
-	display:inline-block;
-	color:#333333;
-	font-size:15px;
-	font-weight:bold;
-	padding:11px 29px;
-	text-decoration:none;
+.button:hover {
+  background: linear-gradient(to bottom, $mySin 5%, #ffec64 100%);
+  background-color: $mySin;
+}
+
+.button:active {
+  position: relative;
+  top: 1px;
 }

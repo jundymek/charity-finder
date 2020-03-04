@@ -1,8 +1,8 @@
-import React, { useState, useRef, ChangeEvent } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import countries from "../../helpers/countriesSelectOptions.json";
 import Select from "react-select";
-import { ValueType, ActionMeta } from "react-select/src/types";
+import { ValueType } from "react-select/src/types";
 import { propsMaper } from "../../helpers/propsMapper";
 import { Charity, SelectedCountry } from "../../helpers/types";
 import styles from "./CharitySearch.module.scss";
@@ -10,14 +10,14 @@ import { customStyles } from "./customStyles";
 import Charities from "../Charities/Charities";
 
 interface Props {
-  setIsActive: (cb: (ptevState: boolean) => boolean) => void;
+  setIsActive: (cb: (prevState: boolean) => boolean) => void;
+  setIsLoading: (boolean: any) => void;
 }
 
-function CharitySearch({ setIsActive }: Props) {
+function CharitySearch({ setIsActive, setIsLoading }: Props) {
   const [selectedCountry, setSelectedCountry] = useState<SelectedCountry>({ value: "", label: "" });
   const [nextId, setNextId] = useState<number>(1);
   const [charities, setCharities] = useState<Charity[]>([]);
-  const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(false);
 
   const fetchNextCharities = (id: number) => {
     if (selectedCountry && selectedCountry["value"].length) {
@@ -41,13 +41,13 @@ function CharitySearch({ setIsActive }: Props) {
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setIsButtonDisabled(true);
+    setIsLoading(true);
     setCharities([]);
     getData(1)
       .then(() => {
         console.log("Success");
         setIsActive(prevState => true);
-        setIsButtonDisabled(false);
+        setIsLoading(false);
       })
       .catch(e => console.warn(e));
   };
@@ -72,18 +72,16 @@ function CharitySearch({ setIsActive }: Props) {
           </label>
           <Select styles={customStyles} options={countries} onChange={handleCountryChange} isClearable={true} />
         </div>
-        <button
-          className={isButtonDisabled ? styles.buttonDisabled : styles.button}
-          onClick={onSubmit}
-          disabled={isButtonDisabled}
-        >
+        <button className={styles.button} onClick={onSubmit}>
           Search for charities{" "}
           <span role="img" aria-label="Heart icon">
             ❤️
           </span>
         </button>
       </form>
-      {charities.length > 0 && <Charities charities={charities} getData={getData} nextId={nextId} />}
+      {charities.length > 0 && (
+        <Charities charities={charities} getData={getData} nextId={nextId} setIsLoading={setIsLoading} />
+      )}
     </section>
   );
 }

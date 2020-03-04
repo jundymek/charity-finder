@@ -8,17 +8,17 @@ export interface Props {
   charities: Charity[];
   getData: (id: number) => Promise<void>;
   nextId: number;
+  setIsLoading: (boolean: boolean) => void;
 }
 
-function Charities({ charities, getData, nextId }: Props) {
+function Charities({ charities, getData, nextId, setIsLoading }: Props) {
   const [filteredCharities, setFilteredCharities] = useState<Charity[]>(charities);
   const [isFiltered, setIsFiltered] = useState<boolean>(false);
-  const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(false);
   useEffect(() => {}, [charities, filteredCharities]);
 
   const handleSubmit: () => void = () => {
-    setIsButtonDisabled(true);
-    return getData(nextId).then(() => setIsButtonDisabled(false));
+    setIsLoading(true);
+    return getData(nextId).then(() => setIsLoading(false));
   };
 
   return (
@@ -31,7 +31,7 @@ function Charities({ charities, getData, nextId }: Props) {
             : filteredCharities.map((charity: Charity) => <CharityBox project={charity} key={charity.id} />)}
         </div>
         {nextId > 1 && !isFiltered && (
-          <button className={isButtonDisabled ? styles.buttonMoreDisabled : styles.buttonMore} onClick={handleSubmit} disabled={isButtonDisabled}>
+          <button className={styles.buttonMore} onClick={handleSubmit} >
             Load more...
           </button>
         )}
