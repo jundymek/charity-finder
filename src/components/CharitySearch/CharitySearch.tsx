@@ -1,11 +1,10 @@
 import React, { useState, useRef, ChangeEvent } from "react";
 import axios from "axios";
 import countries from "../../helpers/countriesSelectOptions.json";
-import { filterCharities } from "../../helpers/filterCharities";
 import Select from "react-select";
 import { ValueType, ActionMeta } from "react-select/src/types";
 import { propsMaper } from "../../helpers/propsMapper";
-import { MappedResponse, Charity, SelectedCountry } from "../../helpers/types";
+import { Charity, SelectedCountry } from "../../helpers/types";
 import styles from "./CharitySearch.module.scss";
 import { customStyles } from "./customStyles";
 import Charities from "../Charities/Charities";
@@ -17,12 +16,8 @@ interface Props {
 
 function CharitySearch() {
   const [selectedCountry, setSelectedCountry] = useState<SelectedCountry>({ value: "", label: "" });
-  const [selectedCountriesOrganizationServes, setselectedCountriesOrganizationServes] = useState<SelectedCountry[]>([]);
-  const [nameInput, setNameInput] = useState<string>("");
   const [nextId, setNextId] = useState<number>(1);
   const [charities, setCharities] = useState<Charity[]>([]);
-
-  console.log(selectedCountry);
 
   const fetchNextCharities = (id: number) => {
     if (selectedCountry && selectedCountry["value"].length) {
@@ -38,9 +33,9 @@ function CharitySearch() {
   const getData = (id: number) => {
     return fetchNextCharities(id).then(res => {
       const mappedResponse = propsMaper(res);
+      console.log(mappedResponse);
       setNextId(mappedResponse.nextId);
-      const newData = filterCharities(mappedResponse.projects, nameInput, selectedCountriesOrganizationServes);
-      setCharities(prevState => [...prevState.concat(newData)]);
+      setCharities(prevState => [...prevState.concat(mappedResponse.projects)]);
     });
   };
 
@@ -57,15 +52,6 @@ function CharitySearch() {
     setSelectedCountry(selectedCountry);
   };
 
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setNameInput(e.target.value);
-  };
-
-  const handleCountriesOrganizationServes = (selectedOption: ValueType<SelectedCountry>, e: ActionMeta) => {
-    const selectedCountries = selectedOption as SelectedCountry[];
-    setselectedCountriesOrganizationServes(selectedCountries);
-  };
-
   return (
     <section className={styles.formContainer}>
       <div>
@@ -77,34 +63,9 @@ function CharitySearch() {
       <form className={styles.form}>
         <div className={styles.formInnerContainer}>
           <label className={styles.formLabel} htmlFor="name">
-            Charity name
-          </label>
-          <input
-            className={styles.formInput}
-            placeholder="Enter charity name"
-            type="text"
-            name="name"
-            id="name"
-            onChange={handleInputChange}
-          />
-        </div>
-        <div className={styles.formInnerContainer}>
-          <label className={styles.formLabel} htmlFor="name">
             Select country
           </label>
           <Select styles={customStyles} options={countries} onChange={handleCountryChange} isClearable={true} />
-        </div>
-        <div className={styles.formInnerContainer}>
-          <label className={styles.formLabel} htmlFor="name">
-            Select countries the organization serves
-          </label>
-          <Select
-            styles={customStyles}
-            options={countries}
-            onChange={handleCountriesOrganizationServes}
-            value={selectedCountriesOrganizationServes}
-            isMulti
-          />
         </div>
         <button className={styles.button} onClick={onSubmit}>
           Search for charities{" "}
@@ -113,7 +74,7 @@ function CharitySearch() {
           </span>
         </button>
       </form>
-      <Charities charities={charities} getData={getData} nextId={nextId} />
+      {charities.length > 0 && <Charities charities={charities} getData={getData} nextId={nextId} />}
     </section>
   );
 }

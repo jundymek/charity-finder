@@ -1,0 +1,102 @@
+@import "../../styles/main.scss";
+
+.container {
+  width: 100%;
+  max-width: 700px;
+}
+
+.formContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.formInnerContainer {
+  display: flex;
+  flex-direction: column;
+  margin: 10px 0;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid white;
+  padding: 10px;
+  max-width: 700px;
+  margin-bottom: 200px;
+}
+
+.formInput {
+  background: black;
+  border: none;
+  border-bottom: 1px solid white;
+  color: white;
+  padding: 10px;
+  margin-bottom: 20px;
+
+  &:active {
+    background: black;
+    border: 1px solid white;
+    border-radius: 2px;
+    margin-top: 20px;
+  }
+}
+
+.formLabel {
+  text-align: left;
+}
+
+.title {
+  font-size: 30px;
+  position: relative;
+  overflow: hidden; 
+  border-right: 5px solid $mySin; 
+  white-space: nowrap; 
+  margin: 0 auto; 
+  animation: 
+    typing 1.5s steps(18, end),
+    blink-caret 1s step-end infinite;
+}
+
+.subtitle {
+  font-size: 16px;
+  padding: 10px;
+  text-align: center;
+}
+
+@keyframes typing {
+  from { width: 0 }
+  to { width: 100% }
+}
+
+@keyframes blink-caret {
+  from, to { border-color: transparent }
+  50% { border-color: $mySin; }
+}
+
+.button {
+  margin-top: 20px;
+	box-shadow: 0px 1px 0px 0px #fff6af;
+	background:linear-gradient(to bottom, #ffec64 5%, $mySin 100%);
+	background-color:#ffec64;
+	border-radius:6px;
+	border:1px solid #ffaa22;
+	display:inline-block;
+	cursor:pointer;
+	color:#333333;
+	font-family:Arial;
+	font-size:15px;
+	font-weight:bold;
+	padding:11px 29px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #ffee66;
+}
+.button:hover {
+	background:linear-gradient(to bottom, $mySin 5%, #ffec64 100%);
+	background-color:$mySin;
+}
+.button:active {
+	position:relative;
+	top:1px;
+}
