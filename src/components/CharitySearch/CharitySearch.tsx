@@ -13,10 +13,11 @@ interface Props {
   setIsActive: (cb: (ptevState: boolean) => boolean) => void;
 }
 
-function CharitySearch({setIsActive}: Props) {
+function CharitySearch({ setIsActive }: Props) {
   const [selectedCountry, setSelectedCountry] = useState<SelectedCountry>({ value: "", label: "" });
   const [nextId, setNextId] = useState<number>(1);
   const [charities, setCharities] = useState<Charity[]>([]);
+  const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(false);
 
   const fetchNextCharities = (id: number) => {
     if (selectedCountry && selectedCountry["value"].length) {
@@ -38,11 +39,16 @@ function CharitySearch({setIsActive}: Props) {
     });
   };
 
-  const onSubmit = (e: any) => {
+  const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    setIsButtonDisabled(true);
     setCharities([]);
     getData(1)
-      .then(() => {console.log("Success"); setIsActive(prevState => true)})
+      .then(() => {
+        console.log("Success");
+        setIsActive(prevState => true);
+        setIsButtonDisabled(false);
+      })
       .catch(e => console.warn(e));
   };
 
@@ -66,7 +72,11 @@ function CharitySearch({setIsActive}: Props) {
           </label>
           <Select styles={customStyles} options={countries} onChange={handleCountryChange} isClearable={true} />
         </div>
-        <button className={styles.button} onClick={onSubmit}>
+        <button
+          className={isButtonDisabled ? styles.buttonDisabled : styles.button}
+          onClick={onSubmit}
+          disabled={isButtonDisabled}
+        >
           Search for charities{" "}
           <span role="img" aria-label="Heart icon">
             ❤️

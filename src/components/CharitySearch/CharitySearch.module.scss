@@ -95,3 +95,16 @@
 	position:relative;
 	top:1px;
 }
+
+.buttonDisabled {
+  margin-top: 20px;
+	box-shadow: 0px 1px 0px 0px #fff6af;
+	background-color:grey;
+	border-radius:6px;
+	display:inline-block;
+	color:#333333;
+	font-size:15px;
+	font-weight:bold;
+	padding:11px 29px;
+	text-decoration:none;
+}

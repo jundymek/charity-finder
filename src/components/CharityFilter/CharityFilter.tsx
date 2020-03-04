@@ -23,7 +23,7 @@ function CharityFilter({ charities, setFilteredCharities, setIsFiltered }: Props
     const selectedCountries = selectedOption as SelectedCountry[];
     setselectedCountriesOrganizationServes(selectedCountries);
   };
-  const onSubmit = (e: any) => {
+  const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const newData = filterCharities(charities, nameInput, selectedCountriesOrganizationServes);
     console.log(newData);
