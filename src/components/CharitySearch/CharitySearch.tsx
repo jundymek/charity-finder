@@ -9,6 +9,7 @@ import styles from "./CharitySearch.module.scss";
 import { customStyles } from "./customStyles";
 import Charities from "../Charities/Charities";
 
+
 interface Props {
   setIsActive: (cb: (prevState: boolean) => boolean) => void;
   setIsLoading: (boolean: any) => void;

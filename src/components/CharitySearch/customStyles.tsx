@@ -1,12 +1,15 @@
+import { StylesConfig } from "react-select";
 
-export const customStyles = {
-  container: (styles: any, { data }: any) => {
+export const customStyles: StylesConfig = {
+
+  container: (styles, { data }) => {
     return {
       ...styles,
       padding: "0px 20px"
     };
   },
-  control: (styles: any, { data }: any) => {
+
+  control: (styles, { data }) => {
     return {
       ...styles,
       backgroundColor: "black",
@@ -15,7 +18,8 @@ export const customStyles = {
       marginTop: "20px"
     };
   },
-  menu: (styles: any) => {
+
+  menu: styles => {
     return {
       ...styles,
       backgroundColor: "black",
@@ -23,7 +27,8 @@ export const customStyles = {
       border: "1px solid white"
     };
   },
-  option: (styles: any, { data }: any) => {
+
+  option: (styles, { data }) => {
     return {
       ...styles,
       backgroundColor: "black",
@@ -34,7 +39,8 @@ export const customStyles = {
       }
     };
   },
-  multiValue: (styles: any, { data }: any) => {
+
+  multiValue: (styles, { data }) => {
     return {
       ...styles,
       backgroundColor: "black",
@@ -42,11 +48,13 @@ export const customStyles = {
       border: "1px solid white"
     };
   },
-  multiValueLabel: (styles: any, { data }: any) => ({
+
+  multiValueLabel: (styles, { data }) => ({
     ...styles,
     color: data.color
   }),
-  multiValueRemove: (styles: any, { data }: any) => ({
+
+  multiValueRemove: (styles, { data }) => ({
     ...styles,
     color: data.color,
     ":hover": {
@@ -54,14 +62,16 @@ export const customStyles = {
       color: "white"
     }
   }),
-  singleValue: (styles: any, { data }: any) => ({
+
+  singleValue: (styles, { data }) => ({
     ...styles,
     color: "white",
     ":hover": {
       color: "white"
     }
   }),
-  placeholder: (styles: any, { data }: any) => ({
+  
+  placeholder: (styles, { data }) => ({
     ...styles,
     color: "white",
     ":hover": {
