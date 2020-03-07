@@ -19,6 +19,7 @@ function CharitySearch({ setIsActive, setIsLoading }: Props) {
   const [selectedCountry, setSelectedCountry] = useState<SelectedCountry>({ value: "", label: "" });
   const [nextId, setNextId] = useState<number>(1);
   const [charities, setCharities] = useState<Charity[]>([]);
+  const [isLoaded, setIsLoaded] = useState<boolean>(false)
 
   const fetchNextCharities = (id: number) => {
     if (selectedCountry && selectedCountry["value"].length) {
@@ -49,6 +50,7 @@ function CharitySearch({ setIsActive, setIsLoading }: Props) {
         console.log("Success");
         setIsActive(prevState => true);
         setIsLoading(false);
+        setIsLoaded(true)
       })
       .catch(e => console.warn(e));
   };
@@ -80,9 +82,9 @@ function CharitySearch({ setIsActive, setIsLoading }: Props) {
           </span>
         </button>
       </form>
-      {charities.length > 0 && (
+      {isLoaded &&
         <Charities charities={charities} getData={getData} nextId={nextId} setIsLoading={setIsLoading} />
-      )}
+      }
     </section>
   );
 }
