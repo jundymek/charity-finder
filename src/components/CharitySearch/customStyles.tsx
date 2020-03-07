@@ -1,11 +1,9 @@
 import { StylesConfig } from "react-select";
 
 export const customStyles: StylesConfig = {
-
   container: (styles, { data }) => {
     return {
       ...styles,
-      padding: "0px 20px"
     };
   },
 
@@ -70,8 +68,15 @@ export const customStyles: StylesConfig = {
       color: "white"
     }
   }),
-  
+
   placeholder: (styles, { data }) => ({
+    ...styles,
+    color: "white",
+    ":hover": {
+      color: "white"
+    }
+  }),
+  input: (styles, { data }) => ({
     ...styles,
     color: "white",
     ":hover": {
