@@ -31,6 +31,14 @@ function CharityFilter({ charities, setFilteredCharities, setIsFiltered }: Props
     setFilteredCharities(newData);
     setIsFiltered(prevState => !prevState);
   };
+
+  const ButtonLabel = () => (
+    <div className={styles.iconLabelWrapper}>
+      <span className={styles.iconLabelParagraph}>Filter charities</span>
+      <img className={styles.iconImage} src={require("../../images/filter-icon.svg")} alt="Filter icon" />
+    </div>
+  );
+
   return (
     <>
       {charities.length > 0 && (
@@ -62,7 +70,7 @@ function CharityFilter({ charities, setFilteredCharities, setIsFiltered }: Props
                 isMulti
               />
             </div>
-            <Button onClick={onSubmit} label="Filter charities" />
+            <Button onClick={onSubmit} label={<ButtonLabel />} />
           </form>
         </section>
       )}

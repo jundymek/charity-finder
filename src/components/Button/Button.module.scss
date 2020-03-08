@@ -1,6 +1,6 @@
 @import "../../styles/variables";
 
-.buttonMore {
+.button {
   margin-top: 20px;
   box-shadow: 0px 1px 0px 0px #fff6af;
   background: linear-gradient(to bottom, #ffec64 5%, $mySin 100%);
@@ -17,12 +17,15 @@
   text-decoration: none;
   text-shadow: 0px 1px 0px #ffee66;
   position: relative;
+  height: 46px;
 }
-.buttonMore:hover {
+
+.button:hover {
   background: linear-gradient(to bottom, $mySin 5%, #ffec64 100%);
   background-color: $mySin;
 }
-.buttonMore:active {
+
+.button:active {
   position: relative;
   top: 1px;
 }

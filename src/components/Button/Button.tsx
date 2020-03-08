@@ -1,5 +1,6 @@
 import React from "react";
 import styles from "./Button.module.scss";
+import { isContext } from "vm";
 
 interface Props {
   isVisible?: boolean;
@@ -11,7 +12,7 @@ function Button({ isVisible = true, onClick, label }: Props) {
   return (
     <>
       {isVisible && (
-        <button type="submit" className={styles.buttonMore} onClick={onClick}>
+        <button type="submit" className={styles.button} onClick={onClick}>
           {label}
         </button>
       )}
