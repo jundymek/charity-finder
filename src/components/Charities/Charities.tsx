@@ -3,6 +3,7 @@ import { Charity } from "../../helpers/types";
 import CharityBox from "../CharityBox/CharityBox";
 import styles from "./Charities.module.scss";
 import CharityFilter from "../CharityFilter/CharityFilter";
+import LoadMoreButton from "../LoadMoreButton/LoadMoreButton";
 
 export interface Props {
   charities: Charity[];
@@ -15,39 +16,22 @@ function Charities({ charities, getData, nextId, setIsLoading }: Props) {
   const [filteredCharities, setFilteredCharities] = useState<Charity[]>(charities);
   const [isFiltered, setIsFiltered] = useState(false);
   useEffect(() => {
-    setFilteredCharities(charities)
-  }, [charities])
+    setFilteredCharities(charities);
+  }, [charities]);
 
-  const handleSubmit: () => void = () => {
-    setIsLoading(true);
-    return getData(nextId).then(() => setIsLoading(false));
-  };
-  console.log(charities);
-  console.log(filteredCharities)
+  const charitiesToRender = isFiltered ? filteredCharities : charities;
+
   return (
-    <>
-      <article className={styles.outerContainer}>
-        <h1>Charities</h1>
-        <div className={styles.mainContainer}>
-          {!isFiltered
-            ? charities.map((charity: Charity) => <CharityBox project={charity} key={charity.id} />)
-            : filteredCharities.map((charity: Charity) => <CharityBox project={charity} key={charity.id} />)}
-          {(charities.length === 0 || filteredCharities.length === 0) && <p>There are no charities matching specified criteria!</p>}
-        </div>
-        {nextId > 1 && !isFiltered && (
-          <button className={styles.buttonMore} onClick={handleSubmit}>
-            Load more...
-          </button>
-        )}
-      </article>
-      {charities.length > 0  && (
-        <CharityFilter
-          charities={charities}
-          setFilteredCharities={setFilteredCharities}
-          setIsFiltered={setIsFiltered}
-        />
-      )}
-    </>
+    <div className={styles.outerContainer}>
+      <h1>Charities</h1>
+      <div className={styles.mainContainer}>
+        {charitiesToRender.map(charity => (
+          <CharityBox project={charity} key={charity.id} />
+        ))}
+      </div>
+      <LoadMoreButton nextId={nextId} isFiltered={isFiltered} getData={getData} setIsLoading={setIsLoading} />
+      <CharityFilter charities={charities} setFilteredCharities={setFilteredCharities} setIsFiltered={setIsFiltered} />
+    </div>
   );
 }
 

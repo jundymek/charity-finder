@@ -16,7 +16,7 @@ export function propsMaper(resData: RawResponse): MappedResponse {
         addressCountry: item.organization.country,
         addressCity: item.organization.city,
         addressLine1: item.organization.addressLine1,
-        addressLine2: item.organization.addressLine2,
+        addressLine2: item.organization.addressLine2 ? item.organization.addressLine2 : "",
         contactUrl: item.contactUrl && item.contactUrl.length ? item.contactUrl : item.projectLink
       })) : [],
   }
