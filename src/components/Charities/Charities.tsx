@@ -14,7 +14,6 @@ export interface Props {
 function Charities({ charities, getData, nextId, setIsLoading }: Props) {
   const [filteredCharities, setFilteredCharities] = useState<Charity[]>(charities);
   const [isFiltered, setIsFiltered] = useState(false);
-  useEffect(() => {}, [filteredCharities]);
   useEffect(() => {
     setFilteredCharities(charities)
   }, [charities])
@@ -24,6 +23,7 @@ function Charities({ charities, getData, nextId, setIsLoading }: Props) {
     return getData(nextId).then(() => setIsLoading(false));
   };
   console.log(charities);
+  console.log(filteredCharities)
   return (
     <>
       <article className={styles.outerContainer}>
