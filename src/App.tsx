@@ -10,9 +10,9 @@ import { Loader } from "react-overlay-loader";
 import "react-overlay-loader/styles.css";
 
 function App() {
-  const [isWelcomeVisible, setIsWelcomeVisible] = useState<boolean>(true);
-  const [isActive, setIsActive] = useState<boolean>(false);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isWelcomeVisible, setIsWelcomeVisible] = useState(true);
+  const [isActive, setIsActive] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   return (
     <>
       {isWelcomeVisible ? (

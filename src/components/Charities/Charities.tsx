@@ -13,7 +13,7 @@ export interface Props {
 
 function Charities({ charities, getData, nextId, setIsLoading }: Props) {
   const [filteredCharities, setFilteredCharities] = useState<Charity[]>(charities);
-  const [isFiltered, setIsFiltered] = useState<boolean>(false);
+  const [isFiltered, setIsFiltered] = useState(false);
   useEffect(() => {}, [filteredCharities]);
   useEffect(() => {
     setFilteredCharities(charities)

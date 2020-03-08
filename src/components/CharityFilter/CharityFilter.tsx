@@ -15,7 +15,7 @@ interface Props {
 
 function CharityFilter({ charities, setFilteredCharities, setIsFiltered }: Props) {
   const [selectedCountriesOrganizationServes, setselectedCountriesOrganizationServes] = useState<SelectedCountry[]>([]);
-  const [nameInput, setNameInput] = useState<string>("");
+  const [nameInput, setNameInput] = useState("");
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     setNameInput(e.target.value);
   };

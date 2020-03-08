@@ -17,9 +17,9 @@ interface Props {
 
 function CharitySearch({ setIsActive, setIsLoading }: Props) {
   const [selectedCountry, setSelectedCountry] = useState<SelectedCountry>({ value: "", label: "" });
-  const [nextId, setNextId] = useState<number>(1);
+  const [nextId, setNextId] = useState(1);
   const [charities, setCharities] = useState<Charity[]>([]);
-  const [isLoaded, setIsLoaded] = useState<boolean>(false)
+  const [isLoaded, setIsLoaded] = useState(false)
 
   const fetchNextCharities = (id: number) => {
     if (selectedCountry && selectedCountry["value"].length) {
