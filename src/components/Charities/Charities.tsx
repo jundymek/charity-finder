@@ -3,7 +3,7 @@ import { Charity } from "../../helpers/types";
 import CharityBox from "../CharityBox/CharityBox";
 import styles from "./Charities.module.scss";
 import CharityFilter from "../CharityFilter/CharityFilter";
-import LoadMoreButton from "../LoadMoreButton/LoadMoreButton";
+import Button from "../Button/Button";
 
 export interface Props {
   charities: Charity[];
@@ -20,6 +20,12 @@ function Charities({ charities, getData, nextId, setIsLoading }: Props) {
   }, [charities]);
 
   const charitiesToRender = isFiltered ? filteredCharities : charities;
+  const isButtonMoreVisible = nextId > 1 && !isFiltered;
+
+  const handleSubmit: () => void = () => {
+    setIsLoading(true);
+    return getData(nextId).then(() => setIsLoading(false));
+  };
 
   return (
     <div className={styles.outerContainer}>
@@ -28,8 +34,11 @@ function Charities({ charities, getData, nextId, setIsLoading }: Props) {
         {charitiesToRender.map(charity => (
           <CharityBox project={charity} key={charity.id} />
         ))}
+        {(charities.length === 0 || filteredCharities.length === 0) && (
+          <p>There are no charities matching specified criteria!</p>
+        )}
       </div>
-      <LoadMoreButton nextId={nextId} isFiltered={isFiltered} getData={getData} setIsLoading={setIsLoading} />
+      <Button isVisible={isButtonMoreVisible} onClick={handleSubmit} label="Load more..." />
       <CharityFilter charities={charities} setFilteredCharities={setFilteredCharities} setIsFiltered={setIsFiltered} />
     </div>
   );

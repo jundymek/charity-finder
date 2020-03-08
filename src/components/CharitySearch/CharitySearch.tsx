@@ -8,7 +8,7 @@ import { Charity, SelectedCountry } from "../../helpers/types";
 import styles from "./CharitySearch.module.scss";
 import { customStyles } from "./customStyles";
 import Charities from "../Charities/Charities";
-
+import Button from "../Button/Button";
 
 interface Props {
   setIsActive: (cb: (prevState: boolean) => boolean) => void;
@@ -19,7 +19,7 @@ function CharitySearch({ setIsActive, setIsLoading }: Props) {
   const [selectedCountry, setSelectedCountry] = useState<SelectedCountry>({ value: "", label: "" });
   const [nextId, setNextId] = useState(1);
   const [charities, setCharities] = useState<Charity[]>([]);
-  const [isLoaded, setIsLoaded] = useState(false)
+  const [isLoaded, setIsLoaded] = useState(false);
 
   const fetchNextCharities = (id: number) => {
     if (selectedCountry && selectedCountry["value"].length) {
@@ -50,7 +50,7 @@ function CharitySearch({ setIsActive, setIsLoading }: Props) {
         console.log("Success");
         setIsActive(prevState => true);
         setIsLoading(false);
-        setIsLoaded(true)
+        setIsLoaded(true);
       })
       .catch(e => console.warn(e));
   };
@@ -60,6 +60,15 @@ function CharitySearch({ setIsActive, setIsLoading }: Props) {
     setSelectedCountry(selectedCountry);
   };
 
+  const ButtonLabel = () => (
+    <>
+      Search for charities{" "}
+      <span role="img" aria-label="Heart icon">
+        ❤️
+      </span>
+    </>
+  );
+
   return (
     <section className={styles.formContainer}>
       <div>
@@ -68,23 +77,16 @@ function CharitySearch({ setIsActive, setIsLoading }: Props) {
       <p className={styles.subtitle}>
         Filter charities by personal search conditions. Use form below to see charities matching yours criteria.
       </p>
-      <form className={styles.form}>
+      <form className={styles.form} onSubmit={onSubmit}>
         <div className={styles.formInnerContainer}>
           <label className={styles.formLabel} htmlFor="name">
             Select country
           </label>
           <Select styles={customStyles} options={countries} onChange={handleCountryChange} isClearable={true} />
         </div>
-        <button className={styles.button} onClick={onSubmit}>
-          Search for charities{" "}
-          <span role="img" aria-label="Heart icon">
-            ❤️
-          </span>
-        </button>
+        <Button onClick={onSubmit} label={<ButtonLabel />} />
       </form>
-      {isLoaded &&
-        <Charities charities={charities} getData={getData} nextId={nextId} setIsLoading={setIsLoading} />
-      }
+      {isLoaded && <Charities charities={charities} getData={getData} nextId={nextId} setIsLoading={setIsLoading} />}
     </section>
   );
 }
