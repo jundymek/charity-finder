@@ -49,35 +49,11 @@
   border-right: 5px solid $mySin;
   white-space: nowrap;
   margin: 0 auto;
-  animation:
-    typing 1.5s steps(18, end),
-    blink-caret 1s step-end infinite;
+  animation: typing 1.5s steps(18, end), blink-caret 1s step-end infinite;
 }
 
 .subtitle {
   font-size: 16px;
   padding: 10px;
   text-align: center;
-}
-
-@keyframes typing {
-  from {
-    width: 0
-  }
-
-  to {
-    width: 100%
-  }
-}
-
-@keyframes blink-caret {
-
-  from,
-  to {
-    border-color: transparent
-  }
-
-  50% {
-    border-color: $mySin;
-  }
 }
