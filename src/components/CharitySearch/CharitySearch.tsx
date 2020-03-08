@@ -3,7 +3,7 @@ import axios from "axios";
 import countries from "../../helpers/countriesSelectOptions.json";
 import Select from "react-select";
 import { ValueType } from "react-select/src/types";
-import { propsMaper } from "../../helpers/propsMapper";
+import { nextCharitiesMapper } from "../../helpers/nextCharitiesMapper";
 import { Charity, SelectedCountry } from "../../helpers/types";
 import styles from "./CharitySearch.module.scss";
 import { customStyles } from "./customStyles";
@@ -34,7 +34,7 @@ function CharitySearch({ setIsActive, setIsLoading }: Props) {
 
   const getData = (id: number) => {
     return fetchNextCharities(id).then(res => {
-      const mappedResponse = propsMaper(res);
+      const mappedResponse = nextCharitiesMapper(res);
       console.log(mappedResponse);
       setNextId(mappedResponse.nextId);
       setCharities(prevState => [...prevState.concat(mappedResponse.projects)]);
