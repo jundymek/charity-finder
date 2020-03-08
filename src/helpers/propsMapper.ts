@@ -13,7 +13,10 @@ export function propsMaper(resData: RawResponse): MappedResponse {
         country: item.country,
         organizationCountries: item.organization.countries.country ? item.organization.countries.country.map((item: CountryArray) => item.name) : [],
         logoImage: item.imageLink,
-        address: {'country': item.organization.country, 'city': item.organization.city, 'addressLine1': item.organization.addressLine1, 'addressLine2': item.organization.addressLine2},
+        addressCountry: item.organization.country,
+        addressCity: item.organization.city,
+        addressLine1: item.organization.addressLine1,
+        addressLine2: item.organization.addressLine2,
         contactUrl: item.contactUrl && item.contactUrl.length ? item.contactUrl : item.projectLink
       })) : [],
   }

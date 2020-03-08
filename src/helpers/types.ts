@@ -22,15 +22,11 @@ export interface Charity {
   country: string;
   organizationCountries: string[];
   logoImage: string,
-  address: Address,
-  contactUrl: string
-}
-
-export interface Address {
-  country: string;
-  city: string;
+  addressCountry: string,
+  addressCity: string,
   addressLine1: string;
   addressLine2: string;
+  contactUrl: string;
 }
 
 export interface RawResponse {
