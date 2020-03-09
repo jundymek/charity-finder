@@ -9,9 +9,9 @@ interface Props {
 function CharityBox({ project }: Props) {
   const { title, id, addressCountry, addressCity, addressLine1, addressLine2, contactUrl } = project;
   const addressFields = {
-    Country: addressCountry,
-    City: addressCity,
-    Address: addressLine2.length > 0 ? `${addressLine1}, ${addressLine2}` : addressLine1
+    country: addressCountry,
+    city: addressCity,
+    address: addressLine2.length > 0 ? `${addressLine1}, ${addressLine2}` : addressLine1
   };
 
   return (
