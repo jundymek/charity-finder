@@ -1,5 +1,4 @@
 import React, { useReducer } from "react";
-import axios from "axios";
 import countries from "../../helpers/countriesSelectOptions.json";
 import Select from "react-select";
 import { ValueType } from "react-select/src/types";
@@ -9,6 +8,8 @@ import styles from "./CharitySearch.module.scss";
 import { customStyles } from "./customStyles";
 import Charities from "../Charities/Charities";
 import Button from "../Button/Button";
+import { fetchAllCharities } from "./fetchAllCharities";
+import { fetchCharitiesByCountry } from "./fetchCharitiesByCountry";
 
 interface Props {
   setIsActive: (arg0: boolean) => void;
@@ -62,14 +63,10 @@ function CharitySearch({ setIsActive, setIsLoading }: Props) {
   const { selectedCountry, nextId, charities, isLoaded } = state;
 
   const fetchNextCharities = (id: number): Promise<RawResponse> => {
-    if (selectedCountry && selectedCountry["value"].length) {
-      return axios.get(
-        `https://api.globalgiving.org/api/public/projectservice/countries/${selectedCountry["value"]}/projects?api_key=961c70eb-d43d-4acc-a6eb-5ff2482a02d0&nextProjectId=${id}`
-      );
+    if (selectedCountry && selectedCountry["value"].length > 0) {
+      return fetchCharitiesByCountry(selectedCountry, id);
     }
-    return axios.get(
-      `https://api.globalgiving.org/api/public/projectservice/all/projects?api_key=961c70eb-d43d-4acc-a6eb-5ff2482a02d0&nextProjectId=${id}`
-    );
+    return fetchAllCharities(id);
   };
 
   const getData = (id: number) => {
