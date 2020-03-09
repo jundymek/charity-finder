@@ -8,11 +8,11 @@ interface Props {
 
 function CharityBox({ project }: Props) {
   const { title, id, addressCountry, addressCity, addressLine1, addressLine2, contactUrl } = project;
-  const addressFields = [
-    ["Country", addressCountry],
-    ["City", addressCity],
-    ["Address", addressLine2.length > 0 ? `${addressLine1}, ${addressLine2}` : addressLine1]
-  ];
+  const addressFields = {
+    Country: addressCountry,
+    City: addressCity,
+    Address: addressLine2.length > 0 ? `${addressLine1}, ${addressLine2}` : addressLine1
+  };
 
   return (
     <div className={styles.charityOuterContainer}>
@@ -27,10 +27,11 @@ function CharityBox({ project }: Props) {
             <h2 className={styles.title}>{title}</h2>
             <p className={styles.id}>id: {id}</p>
           </div>
-          {addressFields.map((field: (string | string[])[], index: number) => (
+
+          {Object.entries(addressFields).map(([key, value], index) => (
             <div key={index} className={styles.addressContainer}>
-              <p className={styles.addressTitle}>{field[0]}</p>
-              <p className={styles.addressValue}>{field[1]}</p>
+              <p className={styles.addressTitle}>{key}</p>
+              <p className={styles.addressValue}>{value}</p>
             </div>
           ))}
         </div>
