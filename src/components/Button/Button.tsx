@@ -1,6 +1,5 @@
 import React from "react";
 import styles from "./Button.module.scss";
-import { isContext } from "vm";
 
 interface Props {
   isVisible?: boolean;

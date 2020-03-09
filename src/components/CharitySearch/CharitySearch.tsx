@@ -1,27 +1,67 @@
-import React, { useState } from "react";
+import React, { useReducer } from "react";
 import axios from "axios";
 import countries from "../../helpers/countriesSelectOptions.json";
 import Select from "react-select";
 import { ValueType } from "react-select/src/types";
 import { nextCharitiesMapper } from "../../helpers/nextCharitiesMapper";
-import { Charity, SelectedCountry } from "../../helpers/types";
+import { Charity, SelectedCountry, MappedResponse, RawResponse } from "../../helpers/types";
 import styles from "./CharitySearch.module.scss";
 import { customStyles } from "./customStyles";
 import Charities from "../Charities/Charities";
 import Button from "../Button/Button";
 
 interface Props {
-  setIsActive: (cb: (prevState: boolean) => boolean) => void;
-  setIsLoading: (boolean: any) => void;
+  setIsActive: (arg0: boolean) => void;
+  setIsLoading: (arg0: boolean) => void;
+}
+
+interface State {
+  selectedCountry: SelectedCountry;
+  nextId: number;
+  charities: Charity[];
+  isLoaded: boolean;
+}
+
+type Action =
+  | { type: "CHANGE_SELECTED_COUNTRY"; payload: SelectedCountry }
+  | { type: "FETCH_NEW_DATA_START" }
+  | { type: "FETCH_NEW_DATA_SUCCESS"; payload: MappedResponse };
+
+function reducer(state: State, action: Action) {
+  switch (action.type) {
+    case "CHANGE_SELECTED_COUNTRY":
+      return {
+        ...state,
+        selectedCountry: action.payload
+      };
+    case "FETCH_NEW_DATA_START":
+      return {
+        ...state,
+        charities: []
+      };
+    case "FETCH_NEW_DATA_SUCCESS":
+      return {
+        ...state,
+        charities: state.charities.concat(action.payload.projects),
+        nextId: action.payload.nextId,
+        isLoaded: true
+      };
+    default:
+      return state;
+  }
 }
 
 function CharitySearch({ setIsActive, setIsLoading }: Props) {
-  const [selectedCountry, setSelectedCountry] = useState<SelectedCountry>({ value: "", label: "" });
-  const [nextId, setNextId] = useState(1);
-  const [charities, setCharities] = useState<Charity[]>([]);
-  const [isLoaded, setIsLoaded] = useState(false);
+  const [state, dispatch] = useReducer(reducer, {
+    selectedCountry: { value: "", label: "" },
+    nextId: 1,
+    charities: [],
+    isLoaded: false
+  });
 
-  const fetchNextCharities = (id: number) => {
+  const { selectedCountry, nextId, charities, isLoaded } = state;
+
+  const fetchNextCharities = (id: number): Promise<RawResponse> => {
     if (selectedCountry && selectedCountry["value"].length) {
       return axios.get(
         `https://api.globalgiving.org/api/public/projectservice/countries/${selectedCountry["value"]}/projects?api_key=961c70eb-d43d-4acc-a6eb-5ff2482a02d0&nextProjectId=${id}`
@@ -35,29 +75,26 @@ function CharitySearch({ setIsActive, setIsLoading }: Props) {
   const getData = (id: number) => {
     return fetchNextCharities(id).then(res => {
       const mappedResponse = nextCharitiesMapper(res);
-      console.log(mappedResponse);
-      setNextId(mappedResponse.nextId);
-      setCharities(prevState => [...prevState.concat(mappedResponse.projects)]);
+      dispatch({ type: "FETCH_NEW_DATA_SUCCESS", payload: mappedResponse });
     });
   };
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    dispatch({ type: "FETCH_NEW_DATA_START" });
     setIsLoading(true);
-    setCharities([]);
-    getData(1)
+    return getData(1)
       .then(() => {
         console.log("Success");
-        setIsActive(prevState => true);
         setIsLoading(false);
-        setIsLoaded(true);
+        setIsActive(true);
       })
       .catch(e => console.warn(e));
   };
 
   const handleCountryChange = (selectedOption: ValueType<SelectedCountry>) => {
     const selectedCountry = selectedOption as SelectedCountry;
-    setSelectedCountry(selectedCountry);
+    dispatch({ type: "CHANGE_SELECTED_COUNTRY", payload: selectedCountry });
   };
 
   const ButtonLabel = () => (
