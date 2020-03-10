@@ -22,9 +22,8 @@ function Charities({ charities, getData, nextId, setIsLoading }: Props) {
   const charitiesToRender = isFiltered ? filteredCharities : charities;
   const isButtonMoreVisible = nextId > 1 && !isFiltered;
 
-  const handleSubmit: () => void = () => {
-    setIsLoading(true);
-    return getData(nextId).then(() => setIsLoading(false));
+  const handleFilterCharities = () => {
+    getData(nextId);
   };
 
   return (
@@ -38,7 +37,7 @@ function Charities({ charities, getData, nextId, setIsLoading }: Props) {
           <p>There are no charities matching specified criteria!</p>
         )}
       </div>
-      <Button isVisible={isButtonMoreVisible} onClick={handleSubmit} label="Load more..." />
+      <Button isVisible={isButtonMoreVisible} onClick={handleFilterCharities} label="Load more..." />
       <CharityFilter charities={charities} setFilteredCharities={setFilteredCharities} setIsFiltered={setIsFiltered} />
     </div>
   );
