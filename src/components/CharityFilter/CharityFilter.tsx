@@ -7,6 +7,7 @@ import { customStyles } from "../CharitySearch/customStyles";
 import countries from "../../helpers/countriesSelectOptions.json";
 import styles from "./CharityFilter.module.scss";
 import Button from "../Button/Button";
+import Icon from "../../images/filter-icon.svg";
 
 interface Props {
   setFilteredCharities: (charities: Charity[]) => void;
@@ -36,46 +37,45 @@ function CharityFilter({ charities, setFilteredCharities, setIsFiltered }: Props
   const ButtonLabel = () => (
     <div className={styles.iconLabelWrapper}>
       <span className={styles.iconLabelParagraph}>Filter charities</span>
-      <img className={styles.iconImage} src={require("../../images/filter-icon.svg")} alt="Filter icon" />
+      <img className={styles.iconImage} src={Icon} alt="Filter icon" />
     </div>
   );
 
+  if (charities.length === 0) {
+    return null;
+  }
   return (
-    <>
-      {charities.length > 0 && (
-        <section className={styles.container}>
-          <h3 className={styles.title}>Filter received data</h3>
-          <form className={styles.form} onSubmit={handleSubmit}>
-            <div className={styles.formInnerContainer}>
-              <label className={styles.formLabel} htmlFor="name">
-                Charity name
-              </label>
-              <input
-                className={styles.formInput}
-                placeholder="Enter charity name"
-                type="text"
-                name="name"
-                id="name"
-                onChange={handleInputChange}
-              />
-            </div>
-            <div className={styles.formInnerContainer}>
-              <label className={styles.formLabel} htmlFor="name">
-                Select countries the organization serves
-              </label>
-              <Select
-                styles={customStyles}
-                options={countries}
-                onChange={handleCountriesOrganizationServes}
-                value={selectedCountriesOrganizationServes}
-                isMulti
-              />
-            </div>
-            <Button onClick={handleSubmit} label={<ButtonLabel />} />
-          </form>
-        </section>
-      )}
-    </>
+    <section className={styles.container}>
+      <h3 className={styles.title}>Filter received data</h3>
+      <form className={styles.form} onSubmit={handleSubmit}>
+        <div className={styles.formInnerContainer}>
+          <label className={styles.formLabel} htmlFor="name">
+            Charity name
+          </label>
+          <input
+            className={styles.formInput}
+            placeholder="Enter charity name"
+            type="text"
+            name="name"
+            id="name"
+            onChange={handleInputChange}
+          />
+        </div>
+        <div className={styles.formInnerContainer}>
+          <label className={styles.formLabel} htmlFor="name">
+            Select countries the organization serves
+          </label>
+          <Select
+            styles={customStyles}
+            options={countries}
+            onChange={handleCountriesOrganizationServes}
+            value={selectedCountriesOrganizationServes}
+            isMulti
+          />
+        </div>
+        <Button onClick={handleSubmit} label={<ButtonLabel />} />
+      </form>
+    </section>
   );
 }
 
