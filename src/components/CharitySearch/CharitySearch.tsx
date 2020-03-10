@@ -63,8 +63,7 @@ function CharitySearch({ setIsActive, setIsLoading }: Props) {
 
   const getData = (id: number) => {
     return fetchNextCharities(id, selectedCountry).then(res => {
-      const mappedResponse = nextCharitiesMapper(res);
-      dispatch({ type: "FETCH_NEW_DATA_SUCCESS", payload: mappedResponse });
+      dispatch({ type: "FETCH_NEW_DATA_SUCCESS", payload: nextCharitiesMapper(res) });
     });
   };
 
