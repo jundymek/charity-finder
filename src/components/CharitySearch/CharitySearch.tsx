@@ -3,13 +3,12 @@ import countries from "../../helpers/countriesSelectOptions.json";
 import Select from "react-select";
 import { ValueType } from "react-select/src/types";
 import { nextCharitiesMapper } from "../../helpers/nextCharitiesMapper";
-import { Charity, SelectedCountry, MappedResponse, RawResponse } from "../../helpers/types";
+import { Charity, SelectedCountry, MappedResponse } from "../../helpers/types";
 import styles from "./CharitySearch.module.scss";
 import { customStyles } from "./customStyles";
 import Charities from "../Charities/Charities";
 import Button from "../Button/Button";
-import { fetchAllCharities } from "./fetchAllCharities";
-import { fetchCharitiesByCountry } from "./fetchCharitiesByCountry";
+import {fetchNextCharities} from "./utils/fetchNextCharities";
 
 interface Props {
   setIsActive: (arg0: boolean) => void;
@@ -62,15 +61,8 @@ function CharitySearch({ setIsActive, setIsLoading }: Props) {
 
   const { selectedCountry, nextId, charities, isLoaded } = state;
 
-  const fetchNextCharities = (id: number): Promise<RawResponse> => {
-    if (selectedCountry && selectedCountry["value"].length > 0) {
-      return fetchCharitiesByCountry(selectedCountry, id);
-    }
-    return fetchAllCharities(id);
-  };
-
   const getData = (id: number) => {
-    return fetchNextCharities(id).then(res => {
+    return fetchNextCharities(id, selectedCountry).then(res => {
       const mappedResponse = nextCharitiesMapper(res);
       dispatch({ type: "FETCH_NEW_DATA_SUCCESS", payload: mappedResponse });
     });
