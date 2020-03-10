@@ -1,17 +1,18 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import styles from "./Button.module.scss";
 
 interface Props {
   isVisible?: boolean;
-  onClick: (e: React.FormEvent<Element>) => void;
-  label?: string | JSX.Element;
+  type?: "submit" | "button";
+  onClick: React.FormEventHandler;
+  label?: ReactNode;
 }
 
-function Button({ isVisible = true, onClick, label }: Props) {
+function Button({ isVisible = true, type = "submit", onClick, label }: Props) {
   return (
     <>
       {isVisible && (
-        <button type="submit" className={styles.button} onClick={onClick}>
+        <button type={type} className={styles.button} onClick={onClick}>
           {label}
         </button>
       )}

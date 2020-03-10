@@ -61,6 +61,7 @@ function CharitySearch({ setIsActive, setIsLoading }: Props) {
   const getData = (id: number) => {
     setIsLoading(true);
     return fetchNextCharities(id, selectedCountry).then(res => {
+      console.log(res)
       dispatch({ type: "FETCH_NEW_DATA_SUCCESS", payload: nextCharitiesMapper(res) });
       setIsLoading(false);
     });
@@ -74,6 +75,7 @@ function CharitySearch({ setIsActive, setIsLoading }: Props) {
       .then(() => {
         console.log("Success");
         setIsActive(true);
+        setIsLoading(false);
       })
       .catch(e => console.warn(e));
   };

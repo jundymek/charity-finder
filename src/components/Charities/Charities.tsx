@@ -37,7 +37,7 @@ function Charities({ charities, getData, nextId, setIsLoading }: Props) {
           <p>There are no charities matching specified criteria!</p>
         )}
       </div>
-      <Button isVisible={isButtonMoreVisible} onClick={handleFilterCharities} label="Load more..." />
+      <Button isVisible={isButtonMoreVisible} type="button" onClick={handleFilterCharities} label="Load more..." />
       <CharityFilter charities={charities} setFilteredCharities={setFilteredCharities} setIsFiltered={setIsFiltered} />
     </div>
   );
