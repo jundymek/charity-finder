@@ -12,7 +12,7 @@ import Icon from "../../images/filter-icon.svg";
 interface Props {
   setFilteredCharities: (charities: Charity[]) => void;
   charities: Charity[];
-  setIsFiltered: (cb: (prevState: boolean) => boolean) => void;
+  setIsFiltered: (value:boolean) => void;
 }
 
 function CharityFilter({ charities, setFilteredCharities, setIsFiltered }: Props) {
@@ -35,7 +35,7 @@ function CharityFilter({ charities, setFilteredCharities, setIsFiltered }: Props
     e.preventDefault();
     const newData = filterCharities(charities, nameInput, selectedCountriesOrganizationServes);
     setFilteredCharities(newData);
-    setIsFiltered(prevState => !prevState);
+    setIsFiltered(true);
   };
 
   const ButtonLabel = () => (
