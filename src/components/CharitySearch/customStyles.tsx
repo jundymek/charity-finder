@@ -22,7 +22,8 @@ export const customStyles: StylesConfig = {
       ...styles,
       backgroundColor: "black",
       color: "white",
-      border: "1px solid white"
+      border: "1px solid white",
+      zIndex: 2
     };
   },
 
