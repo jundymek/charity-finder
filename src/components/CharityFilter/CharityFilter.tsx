@@ -20,14 +20,15 @@ function CharityFilter({ charities, setFilteredCharities, setIsFiltered }: Props
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     setNameInput(e.target.value);
   };
+
   const handleCountriesOrganizationServes = (selectedOption: ValueType<SelectedCountry>, e: ActionMeta) => {
     const selectedCountries = selectedOption as SelectedCountry[];
     setselectedCountriesOrganizationServes(selectedCountries);
   };
-  const onSubmit = (e: React.FormEvent) => {
+
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const newData = filterCharities(charities, nameInput, selectedCountriesOrganizationServes);
-    console.log(newData);
     setFilteredCharities(newData);
     setIsFiltered(prevState => !prevState);
   };
@@ -44,7 +45,7 @@ function CharityFilter({ charities, setFilteredCharities, setIsFiltered }: Props
       {charities.length > 0 && (
         <section className={styles.container}>
           <h3 className={styles.title}>Filter received data</h3>
-          <form className={styles.form} onSubmit={onSubmit}>
+          <form className={styles.form} onSubmit={handleSubmit}>
             <div className={styles.formInnerContainer}>
               <label className={styles.formLabel} htmlFor="name">
                 Charity name
@@ -70,7 +71,7 @@ function CharityFilter({ charities, setFilteredCharities, setIsFiltered }: Props
                 isMulti
               />
             </div>
-            <Button onClick={onSubmit} label={<ButtonLabel />} />
+            <Button onClick={handleSubmit} label={<ButtonLabel />} />
           </form>
         </section>
       )}
