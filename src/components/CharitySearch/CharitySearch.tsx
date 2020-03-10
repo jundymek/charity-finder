@@ -1,52 +1,19 @@
 import React, { useReducer, FormEvent } from "react";
 import countries from "../../helpers/countriesSelectOptions.json";
-import Select from "react-select";
-import { ValueType } from "react-select/src/types";
-import { nextCharitiesMapper } from "../../helpers/nextCharitiesMapper";
-import { Charity, SelectedCountry, MappedResponse } from "../../helpers/types";
 import styles from "./CharitySearch.module.scss";
 import { customStyles } from "./customStyles";
+import Select from "react-select";
+import { ValueType } from "react-select/src/types";
+import { SelectedCountry } from "../../helpers/types";
+import { nextCharitiesMapper } from "../../helpers/nextCharitiesMapper";
 import Charities from "../Charities/Charities";
-import Button from "../Button/Button";
 import { fetchNextCharities } from "./utils/fetchNextCharities";
+import { reducer } from "./reducer/charitySearchReducer";
+import Button from "../Button/Button";
 
 interface Props {
   setIsActive: (arg0: boolean) => void;
   setIsLoading: (arg0: boolean) => void;
-}
-
-interface State {
-  selectedCountry: SelectedCountry;
-  nextId: number;
-  charities: Charity[] | null;
-}
-
-type Action =
-  | { type: "CHANGE_SELECTED_COUNTRY"; payload: SelectedCountry }
-  | { type: "FETCH_NEW_DATA_START" }
-  | { type: "FETCH_NEW_DATA_SUCCESS"; payload: MappedResponse };
-
-function reducer(state: State, action: Action) {
-  switch (action.type) {
-    case "CHANGE_SELECTED_COUNTRY":
-      return {
-        ...state,
-        selectedCountry: action.payload
-      };
-    case "FETCH_NEW_DATA_START":
-      return {
-        ...state,
-        charities: []
-      };
-    case "FETCH_NEW_DATA_SUCCESS":
-      return {
-        ...state,
-        charities: state.charities && state.charities.concat(action.payload.projects),
-        nextId: action.payload.nextId
-      };
-    default:
-      return state;
-  }
 }
 
 function CharitySearch({ setIsActive, setIsLoading }: Props) {
@@ -61,7 +28,7 @@ function CharitySearch({ setIsActive, setIsLoading }: Props) {
   const getData = (id: number) => {
     setIsLoading(true);
     return fetchNextCharities(id, selectedCountry).then(res => {
-      console.log(res)
+      console.log(res);
       dispatch({ type: "FETCH_NEW_DATA_SUCCESS", payload: nextCharitiesMapper(res) });
       setIsLoading(false);
     });

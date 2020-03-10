@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent } from "react";
+import React, { useState, useEffect, ChangeEvent } from "react";
 import Select from "react-select";
 import { Charity, SelectedCountry } from "../../helpers/types";
 import { ValueType, ActionMeta } from "react-select/src/types";
@@ -21,6 +21,10 @@ function CharityFilter({ charities, setFilteredCharities, setIsFiltered }: Props
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     setNameInput(e.target.value);
   };
+
+  useEffect(() => {
+    setselectedCountriesOrganizationServes([])
+  }, [charities])
 
   const handleCountriesOrganizationServes = (selectedOption: ValueType<SelectedCountry>, e: ActionMeta) => {
     const selectedCountries = selectedOption as SelectedCountry[];

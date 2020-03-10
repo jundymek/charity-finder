@@ -4,6 +4,7 @@ import CharityBox from "../CharityBox/CharityBox";
 import styles from "./Charities.module.scss";
 import CharityFilter from "../CharityFilter/CharityFilter";
 import Button from "../Button/Button";
+import { filterCharities } from "../../helpers/filterCharities";
 
 export interface Props {
   charities: Charity[];
@@ -15,6 +16,7 @@ export interface Props {
 function Charities({ charities, getData, nextId, setIsLoading }: Props) {
   const [filteredCharities, setFilteredCharities] = useState<Charity[]>(charities);
   const [isFiltered, setIsFiltered] = useState(false);
+
   useEffect(() => {
     setFilteredCharities(charities);
   }, [charities]);
