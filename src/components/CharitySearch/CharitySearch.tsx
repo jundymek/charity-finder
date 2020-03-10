@@ -1,4 +1,4 @@
-import React, { useReducer } from "react";
+import React, { useReducer, FormEvent } from "react";
 import countries from "../../helpers/countriesSelectOptions.json";
 import Select from "react-select";
 import { ValueType } from "react-select/src/types";
@@ -8,7 +8,7 @@ import styles from "./CharitySearch.module.scss";
 import { customStyles } from "./customStyles";
 import Charities from "../Charities/Charities";
 import Button from "../Button/Button";
-import {fetchNextCharities} from "./utils/fetchNextCharities";
+import { fetchNextCharities } from "./utils/fetchNextCharities";
 
 interface Props {
   setIsActive: (arg0: boolean) => void;
@@ -18,8 +18,7 @@ interface Props {
 interface State {
   selectedCountry: SelectedCountry;
   nextId: number;
-  charities: Charity[];
-  isLoaded: boolean;
+  charities: Charity[] | null;
 }
 
 type Action =
@@ -42,9 +41,8 @@ function reducer(state: State, action: Action) {
     case "FETCH_NEW_DATA_SUCCESS":
       return {
         ...state,
-        charities: state.charities.concat(action.payload.projects),
-        nextId: action.payload.nextId,
-        isLoaded: true
+        charities: state.charities && state.charities.concat(action.payload.projects),
+        nextId: action.payload.nextId
       };
     default:
       return state;
@@ -55,26 +53,26 @@ function CharitySearch({ setIsActive, setIsLoading }: Props) {
   const [state, dispatch] = useReducer(reducer, {
     selectedCountry: { value: "", label: "" },
     nextId: 1,
-    charities: [],
-    isLoaded: false
+    charities: null
   });
 
-  const { selectedCountry, nextId, charities, isLoaded } = state;
+  const { selectedCountry, nextId, charities } = state;
 
   const getData = (id: number) => {
+    setIsLoading(true);
     return fetchNextCharities(id, selectedCountry).then(res => {
       dispatch({ type: "FETCH_NEW_DATA_SUCCESS", payload: nextCharitiesMapper(res) });
+      setIsLoading(false);
     });
   };
 
-  const onSubmit = (e: React.FormEvent) => {
+  const onSubmit = (e: FormEvent) => {
     e.preventDefault();
     dispatch({ type: "FETCH_NEW_DATA_START" });
     setIsLoading(true);
     return getData(1)
       .then(() => {
         console.log("Success");
-        setIsLoading(false);
         setIsActive(true);
       })
       .catch(e => console.warn(e));
@@ -111,7 +109,7 @@ function CharitySearch({ setIsActive, setIsLoading }: Props) {
         </div>
         <Button onClick={onSubmit} label={<ButtonLabel />} />
       </form>
-      {isLoaded && <Charities charities={charities} getData={getData} nextId={nextId} setIsLoading={setIsLoading} />}
+      {charities && <Charities charities={charities} getData={getData} nextId={nextId} setIsLoading={setIsLoading} />}
     </section>
   );
 }
