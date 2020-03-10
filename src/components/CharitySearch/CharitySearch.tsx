@@ -76,7 +76,7 @@ function CharitySearch({ setIsActive, setIsLoading }: Props) {
           </label>
           <Select styles={customStyles} options={countries} onChange={handleCountryChange} isClearable={true} />
         </div>
-        <Button onClick={onSubmit} label={<ButtonLabel />} />
+        <Button type="submit" label={<ButtonLabel />} />
       </form>
       {charities && <Charities charities={charities} getData={getData} nextId={nextId} setIsLoading={setIsLoading} />}
     </section>

@@ -21,7 +21,7 @@ function Welcome({ isVisible = true, setIsWelcomeVisible }: Props) {
           ❤️
         </span>
       </p>
-      <Button type="button" onClick={handleClick} label="Proceed to site" />
+      <Button onClick={handleClick} label="Proceed to site" />
     </section>
   );
 }

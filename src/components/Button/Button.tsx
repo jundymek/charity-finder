@@ -4,11 +4,11 @@ import styles from "./Button.module.scss";
 interface Props {
   isVisible?: boolean;
   type?: "submit" | "button";
-  onClick: React.FormEventHandler;
+  onClick?: React.FormEventHandler;
   label?: ReactNode;
 }
 
-function Button({ isVisible = true, type = "submit", onClick, label }: Props) {
+function Button({ isVisible = true, type = "button", onClick, label }: Props) {
   return (
     <>
       {isVisible && (

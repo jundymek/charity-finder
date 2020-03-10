@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Charity } from "../../helpers/types";
-import CharityBox from "../CharityBox/CharityBox";
 import styles from "./Charities.module.scss";
+import CharityBox from "../CharityBox/CharityBox";
 import CharityFilter from "../CharityFilter/CharityFilter";
 import Button from "../Button/Button";
-import { filterCharities } from "../../helpers/filterCharities";
 
 export interface Props {
   charities: Charity[];
@@ -21,8 +20,8 @@ function Charities({ charities, getData, nextId, setIsLoading }: Props) {
     setFilteredCharities(charities);
   }, [charities]);
 
-  console.log(filteredCharities)
-  console.log(isFiltered)
+  console.log(filteredCharities);
+  console.log(isFiltered);
 
   const charitiesToRender = isFiltered ? filteredCharities : charities;
   const isButtonMoreVisible = nextId > 1 && !isFiltered;
@@ -42,7 +41,7 @@ function Charities({ charities, getData, nextId, setIsLoading }: Props) {
           <p>There are no charities matching specified criteria!</p>
         )}
       </div>
-      <Button isVisible={isButtonMoreVisible} type="button" onClick={handleLoadMoreCharities} label="Load more..." />
+      <Button isVisible={isButtonMoreVisible} onClick={handleLoadMoreCharities} label="Load more..." />
       <CharityFilter charities={charities} setFilteredCharities={setFilteredCharities} setIsFiltered={setIsFiltered} />
     </div>
   );
