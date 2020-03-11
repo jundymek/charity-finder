@@ -9,14 +9,13 @@ interface Props {
 }
 
 function Button({ isVisible = true, type = "button", onClick, label }: Props) {
+  if (!isVisible) {
+    return null;
+  }
   return (
-    <>
-      {isVisible && (
-        <button type={type} className={styles.button} onClick={onClick}>
-          {label}
-        </button>
-      )}
-    </>
+    <button type={type} className={styles.buttonPrimary} {...(type === "button" && { onClick: onClick })}>
+      {label}
+    </button>
   );
 }
 
