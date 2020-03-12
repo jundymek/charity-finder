@@ -1,4 +1,4 @@
-import React, { useReducer, FormEvent } from "react";
+import React, { useReducer, FormEventHandler } from "react";
 import countries from "../../helpers/countriesSelectOptions.json";
 import styles from "./CharitySearch.module.scss";
 import { customStyles } from "./customStyles";
@@ -34,7 +34,7 @@ function CharitySearch({ setIsActive, setIsLoading }: Props) {
     });
   };
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit:FormEventHandler = e => {
     e.preventDefault();
     dispatch({ type: "FETCH_NEW_DATA_START" });
     setIsLoading(true);

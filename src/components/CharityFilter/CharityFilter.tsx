@@ -1,4 +1,4 @@
-import React, { useState, useEffect, ChangeEvent, FormEvent } from "react";
+import React, { useState, useEffect, ChangeEvent, FormEventHandler } from "react";
 import Select from "react-select";
 import { Charity, SelectedCountry } from "../../types/types";
 import { ValueType, ActionMeta } from "react-select/src/types";
@@ -31,7 +31,7 @@ function CharityFilter({ charities, setFilteredCharities, setIsFiltered }: Props
     setselectedCountriesOrganizationServes(selectedCountries);
   };
 
-  const handleSubmit = (e: FormEvent): void => {
+  const handleSubmit:FormEventHandler = e => {
     e.preventDefault();
     const newData = filterCharities(charities, nameInput, selectedCountriesOrganizationServes);
     setFilteredCharities(newData);
