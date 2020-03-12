@@ -1,5 +1,6 @@
 {
   "name": "charity-finder",
+  "homepage": "https://jundymek.github.io/charity-finder",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -10,16 +11,25 @@
     "@types/node": "^12.12.28",
     "@types/react": "^16.9.21",
     "@types/react-dom": "^16.9.5",
+    "@types/react-select": "^3.0.10",
+    "axios": "^0.19.2",
+    "fsevents": "^2.1.2",
+    "gh-pages": "^2.2.0",
+    "node-sass": "^4.13.1",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
+    "react-overlay-loader": "0.0.3",
     "react-scripts": "3.4.0",
+    "react-select": "^3.0.8",
     "typescript": "^3.7.5"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": "react-app"
