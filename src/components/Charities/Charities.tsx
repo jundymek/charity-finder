@@ -20,9 +20,6 @@ function Charities({ charities, getData, nextId, setIsLoading }: Props) {
     setFilteredCharities(charities);
   }, [charities]);
 
-  console.log(filteredCharities);
-  console.log(isFiltered);
-
   const charitiesToRender = isFiltered ? filteredCharities : charities;
   const isButtonMoreVisible = nextId > 1 && !isFiltered;
 

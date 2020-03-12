@@ -9,6 +9,11 @@ export type CountryArray = {
   name: string;
 }
 
+export interface Address  {
+  key: string;
+  value: string;
+}
+
 export interface MappedResponse {
   hasNext: boolean;
   nextId: number;

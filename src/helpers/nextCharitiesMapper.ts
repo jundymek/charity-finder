@@ -1,6 +1,7 @@
 import { MappedResponse, RawResponse, Project, CountryArray } from "./types";
 
 export function nextCharitiesMapper(resData: RawResponse): MappedResponse {
+  console.log(resData)
   const { hasNext, nextProjectId, numberFound, project } = resData.data.projects
   return {
     hasNext: hasNext,

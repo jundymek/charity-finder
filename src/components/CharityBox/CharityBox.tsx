@@ -1,18 +1,15 @@
 import React from "react";
 import { Charity } from "../../helpers/types";
 import styles from "./CharityBox.module.scss";
+import { getAddressFields } from "./utils/getAddressFields";
 
 interface Props {
   project: Charity;
 }
 
 function CharityBox({ project }: Props) {
-  const { title, id, addressCountry, addressCity, addressLine1, addressLine2, contactUrl } = project;
-  const addressFields = {
-    country: addressCountry,
-    city: addressCity,
-    address: addressLine2.length > 0 ? `${addressLine1}, ${addressLine2}` : addressLine1
-  };
+  const { title, id, contactUrl } = project;
+  const addressFields = getAddressFields(project);
 
   return (
     <div className={styles.charityOuterContainer}>
@@ -28,7 +25,7 @@ function CharityBox({ project }: Props) {
             <p className={styles.id}>id: {id}</p>
           </div>
 
-          {Object.entries(addressFields).map(([key, value], index) => (
+          {addressFields.map(({key, value}, index) => (
             <div key={index} className={styles.addressContainer}>
               <p className={styles.addressTitle}>{key}</p>
               <p className={styles.addressValue}>{value}</p>
