@@ -1,4 +1,4 @@
-import { Charity, SelectedCountry, MappedResponse } from "../../../helpers/types";
+import { Charity, SelectedCountry, MappedResponse } from "../../../types/types";
 
 interface State {
   selectedCountry: SelectedCountry;

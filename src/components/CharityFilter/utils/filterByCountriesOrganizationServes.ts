@@ -1,4 +1,4 @@
-import { Charity, SelectedCountry } from "../../../helpers/types";
+import { Charity, SelectedCountry } from "../../../types/types";
 
 export const filterByCountriesOrganizationServes = (data: Charity[], countries: SelectedCountry[]): Charity[] => {
   if (countries && countries.length) {

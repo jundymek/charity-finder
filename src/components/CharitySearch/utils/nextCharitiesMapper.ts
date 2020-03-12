@@ -1,4 +1,4 @@
-import { MappedResponse, RawResponse, Project, CountryArray } from "../../../helpers/types";
+import { MappedResponse, RawResponse, Project, CountryArray } from "../../../types/types";
 
 export function nextCharitiesMapper(resData: RawResponse): MappedResponse {
   console.log(resData)

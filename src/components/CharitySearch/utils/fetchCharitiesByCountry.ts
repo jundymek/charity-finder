@@ -1,5 +1,5 @@
 import axios from "axios";
-import { SelectedCountry, RawResponse } from "../../../helpers/types";
+import { SelectedCountry, RawResponse } from "../../../types/types";
 
 export function fetchCharitiesByCountry(selectedCountry: SelectedCountry, id: number): Promise<RawResponse> {
   return axios.get(

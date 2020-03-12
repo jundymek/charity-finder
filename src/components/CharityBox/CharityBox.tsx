@@ -1,5 +1,5 @@
 import React from "react";
-import { Charity } from "../../helpers/types";
+import { Charity } from "../../types/types";
 import styles from "./CharityBox.module.scss";
 import { getAddressFields } from "./utils/getAddressFields";
 

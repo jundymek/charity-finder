@@ -1,4 +1,4 @@
-import { Charity, Address } from "../../../helpers/types";
+import { Charity, Address } from "../../../types/types";
 
 export function getAddressFields(project: Charity): Address[] {
   const { addressCountry, addressCity, addressLine1, addressLine2 } = project;

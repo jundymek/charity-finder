@@ -4,7 +4,7 @@ import styles from "./CharitySearch.module.scss";
 import { customStyles } from "./customStyles";
 import Select from "react-select";
 import { ValueType } from "react-select/src/types";
-import { SelectedCountry } from "../../helpers/types";
+import { SelectedCountry } from "../../types/types";
 import { nextCharitiesMapper } from "./utils/nextCharitiesMapper";
 import Charities from "../Charities/Charities";
 import { fetchNextCharities } from "./utils/fetchNextCharities";

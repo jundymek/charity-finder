@@ -1714,11 +1714,11 @@ const tenGoodReponse = {
 }
 
 describe('nextCharitiesMapper', () => {
-  xit('noProjects', () => {
+  it('No charities', () => {
     expect(nextCharitiesMapper(emptyData)).toHaveProperty("totalNumberOfCharities", 0)
-    expect(nextCharitiesMapper(fullData).projects).toHaveLength(0)
+    expect(nextCharitiesMapper(emptyData).projects).toHaveLength(0)
   });
-  it('tenProjects', () => {
+  it('Ten charities in response', () => {
     expect(nextCharitiesMapper(fullData)).toHaveProperty("projects")
     expect(nextCharitiesMapper(fullData).projects).toHaveLength(10)
     expect(nextCharitiesMapper(fullData).projects[0]).toHaveProperty("id")
@@ -1732,7 +1732,7 @@ describe('nextCharitiesMapper', () => {
     expect(nextCharitiesMapper(fullData).projects[0]).toHaveProperty("addressLine2")
     expect(nextCharitiesMapper(fullData).projects[0]).toHaveProperty("contactUrl")
   });
-  it('tenProjectResponse', () => {
+  it('Ten charities in response - full response', () => {
     expect(nextCharitiesMapper(fullData)).toEqual(tenGoodReponse)
   });
 });

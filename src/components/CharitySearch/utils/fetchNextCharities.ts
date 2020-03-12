@@ -1,4 +1,4 @@
-import { RawResponse, SelectedCountry } from "../../../helpers/types";
+import { RawResponse, SelectedCountry } from "../../../types/types";
 import { fetchCharitiesByCountry } from "./fetchCharitiesByCountry";
 import { fetchAllCharities } from "./fetchAllCharities";
 

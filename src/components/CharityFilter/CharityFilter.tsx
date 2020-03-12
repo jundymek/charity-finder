@@ -1,6 +1,6 @@
 import React, { useState, useEffect, ChangeEvent, FormEvent } from "react";
 import Select from "react-select";
-import { Charity, SelectedCountry } from "../../helpers/types";
+import { Charity, SelectedCountry } from "../../types/types";
 import { ValueType, ActionMeta } from "react-select/src/types";
 import { filterCharities } from "./utils/filterCharities";
 import { customStyles } from "../CharitySearch/customStyles";
