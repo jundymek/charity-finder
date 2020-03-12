@@ -5,7 +5,7 @@ import { customStyles } from "./customStyles";
 import Select from "react-select";
 import { ValueType } from "react-select/src/types";
 import { SelectedCountry } from "../../helpers/types";
-import { nextCharitiesMapper } from "../../helpers/nextCharitiesMapper";
+import { nextCharitiesMapper } from "./utils/nextCharitiesMapper";
 import Charities from "../Charities/Charities";
 import { fetchNextCharities } from "./utils/fetchNextCharities";
 import { reducer } from "./reducer/charitySearchReducer";
@@ -34,7 +34,7 @@ function CharitySearch({ setIsActive, setIsLoading }: Props) {
     });
   };
 
-  const onSubmit = (e: FormEvent) => {
+  const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     dispatch({ type: "FETCH_NEW_DATA_START" });
     setIsLoading(true);
@@ -69,7 +69,7 @@ function CharitySearch({ setIsActive, setIsLoading }: Props) {
       <p className={styles.subtitle}>
         Filter charities by personal search conditions. Use form below to see charities matching yours criteria.
       </p>
-      <form className={styles.form} onSubmit={onSubmit}>
+      <form className={styles.form} onSubmit={handleSubmit}>
         <div className={styles.formInnerContainer}>
           <label className={styles.formLabel} htmlFor="name">
             Select country

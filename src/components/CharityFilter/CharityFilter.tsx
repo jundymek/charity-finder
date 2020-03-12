@@ -1,8 +1,8 @@
-import React, { useState, useEffect, ChangeEvent } from "react";
+import React, { useState, useEffect, ChangeEvent, FormEvent } from "react";
 import Select from "react-select";
 import { Charity, SelectedCountry } from "../../helpers/types";
 import { ValueType, ActionMeta } from "react-select/src/types";
-import { filterCharities } from "../../helpers/filterCharities";
+import { filterCharities } from "./utils/filterCharities";
 import { customStyles } from "../CharitySearch/customStyles";
 import countries from "../../helpers/countriesSelectOptions.json";
 import styles from "./CharityFilter.module.scss";
@@ -31,7 +31,7 @@ function CharityFilter({ charities, setFilteredCharities, setIsFiltered }: Props
     setselectedCountriesOrganizationServes(selectedCountries);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: FormEvent): void => {
     e.preventDefault();
     const newData = filterCharities(charities, nameInput, selectedCountriesOrganizationServes);
     setFilteredCharities(newData);
@@ -77,7 +77,7 @@ function CharityFilter({ charities, setFilteredCharities, setIsFiltered }: Props
             isMulti
           />
         </div>
-        <Button onClick={handleSubmit} label={<ButtonLabel />} />
+        <Button type="submit" label={<ButtonLabel />} />
       </form>
     </section>
   );

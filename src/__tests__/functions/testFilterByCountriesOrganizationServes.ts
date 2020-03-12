@@ -1,4 +1,4 @@
-import { filterByCountriesOrganizationServes } from "../../helpers/filterByCountriesOrganizationServes";
+import { filterByCountriesOrganizationServes } from "../../components/CharityFilter/utils/filterByCountriesOrganizationServes";
 
 
 const data = [

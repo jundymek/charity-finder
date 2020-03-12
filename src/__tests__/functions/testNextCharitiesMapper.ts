@@ -1,4 +1,4 @@
-import {nextCharitiesMapper} from "../../helpers/nextCharitiesMapper";
+import {nextCharitiesMapper} from "../../components/CharitySearch/utils/nextCharitiesMapper";
 
 const emptyData = {
   "data": {
